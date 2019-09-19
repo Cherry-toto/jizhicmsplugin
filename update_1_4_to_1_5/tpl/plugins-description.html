@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">1.4升级1.5版本更新插件</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1、修复修改字段时无法更改字段内容bug</h3></li>
+		<li><h3>2、修改loop循环的时候page分页链接去除.html后缀</h3></li>
+		<li><h3>3、修复前台获取自定义字段有的字段没有被获取到</h3></li>
+		<li><h3>4、修复loop循环中$type['id']时报错</h3></li>
+		<li><h3>5、修复个人中心订单及评论数错误显示</h3></li>
+		<li><h3>6、新增字段增加关联模块类型，并修复新增字段时提示偶然错误bug[FieldsController.php]</h3></li>
+		<li><h3>7、修复安装时出现缓存文件夹不存在和数据库未创建而直接连接数据库导致的错误</h3></li>
+		<li><h3>8、美化textarea及修复新增字段bug</h3></li>
+		<li><h3>9、修复新增字段编辑器类型不显示bug</h3></li>
+		<li><h3>10、修复登录的时候如果没有HTTP_REFERER提示的Notice</h3></li>
+		<li><h3>11、修复后台新增用户没有用户分组选项</h3></li>
+		<li><h3>12、修复修改详情时导致用户权限消失，优化功能</h3></li>
+		<li><h3>13、修复详情页上一页下一页输出问题</h3></li>
+		<li><h3>14、配置文件新增domain网站SEO网址 </h3></li>
+		<li><h3>15、安装数据库添加v1.5版本及相关sql</h3></li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
