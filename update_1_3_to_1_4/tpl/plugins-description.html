@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">1.3升级1.4版本更新插件</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1、格式化时间显示</h3></li>
+		<li><h3>2、新增前台留言模块增加验证码插件（更新包未包含，请到官网下载）</h3></li>
+		<li><h3>3、新增后台模板编辑插件（更新包未包含，请到官网下载）</h3></li>
+		<li><h3>4、自定义文章/产品详情url</h3></li>
+		<li><h3>5、自定义模块新增isshow默认字段，判断是否显示内容，修复前台不显示内容也显示的bug</h3></li>
+		<li><h3>6、支付模块修复bug</h3></li>
+
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

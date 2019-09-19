@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  <blockquote class="layui-elem-quote">使用在线编辑文件时，模板目录权限必须是777</blockquote>
+    <form class="layui-form layui-form-pane" action="">
+	<input name="id" type="hidden" value="{$plugins['id']}">
+	{if(empty($config))}
+	<div class="xlx">
+	  <div class="layui-form-item">
+		<label class="layui-form-label">模板目录</label>
+		<div class="layui-input-block">
+		  <input type="text" name="path" required  lay-verify="required" value="template" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux">默认template</div>
+	  </div>
+	  <div class="layui-form-item">
+		<label class="layui-form-label">登录密码</label>
+		<div class="layui-input-block">
+		  <input type="password" name="password"  required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux">访问的时候需要,忘记密码请到数据库对应的插件config里查看</div>
+	   </div>
+	   <div class="layui-form-item" >
+		<div class="layui-input-block" style="text-align:center;">
+		  <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+	
+		</div>
+	  </div>
+	  </div>
+	{else}
+		 <div class="layui-form-item">
+			<label class="layui-form-label">登录密码</label>
+			<div class="layui-input-block" >
+			  <input type="password" name="password"  required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+			</div>
+			
+		   </div>
+		   <div class="layui-form-item">
+			<div class="layui-input-block" style="text-align:center;">
+			  <button class="layui-btn" lay-submit lay-filter="login">立即提交</button>
+		
+			</div>
+		  </div>
+	{/if}
+	</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			   //监听提交
+              form.on('submit(login)', function(data){
+           
+				window.open("{fun get_domain()}/A/exts/filemanage/fileManage/index.php?path={$config['path']}&key="+data.field.password);
+				
+                return false;
+              });
+			  
+			  
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>

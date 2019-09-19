@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+    <form class="layui-form layui-form-pane" action="">
+	<!--表单必须要携带ID-->
+	<input name="id" value="{$plugins['id']}" type="hidden">
+    <div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">留言板验证码无需配置</label>
+		<div class="layui-input-block">
+		 
+		</div>
+	  </div>
+	
+  </div>
+</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+            
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>

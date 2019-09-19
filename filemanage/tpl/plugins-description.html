@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">在线模板编辑插件安装说明</h1>
+	<div style="margin:15px;text-align:center;">
+		<h3>1. 服务器设置模板目录权限为777</h3>
+		<h3>2. 请记住登录密码，如果忘了，可以在数据库plugins表里找到对应的插件filemanage的config里查看</h3>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

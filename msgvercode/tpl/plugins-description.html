@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">留言板验证码</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1.前端模板页面使用图形验证码：</h3></li>
+		<li><pre class="layui-code"><input name="vercode" /><img src="{!--fun U('Common/vercode')--}" onclick="this.src=this.src+'?'+Math.random();" /></pre></li>
+		<li><h3>2.后台启用插件后，将立刻生效。</h3></li>
+
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
