@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">后台登录加强版</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1.请认真填写并记录您设置的秘钥</h3></li>
+		<li><h3>2.重置秘钥请到数据库清空adminsafe对应的配置内容</h3></li>
+		<li><h3>3.设置好后每次访问后台网址需要加上您设置的秘钥才可以进入</h3></li>
+		<li><h3>4.该插件主要是防止后台地址暴露后降低爆破的可能性</h3></li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

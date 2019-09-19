@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  
+    <form class="layui-form layui-form-pane" action="">
+	<input name="id" type="hidden" value="{$plugins['id']}">
+	{if(empty($config))}
+	<blockquote class="layui-elem-quote">首次安装请设置您的访问秘钥</blockquote>
+	<div class="xlx">
+	  
+	  <div class="layui-form-item">
+		<label class="layui-form-label">访问秘钥</label>
+		<div class="layui-input-block">
+		  <input type="text" name="password"  required lay-verify="required" placeholder="请输入秘钥" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux"></div>
+	   </div>
+	  <div class="layui-form-item">
+		<label class="layui-form-label">无法登录提示</label>
+		<div class="layui-input-block">
+		  <input type="text" name="msg" value="请使用正确的方式登录面板！"  required lay-verify="required" placeholder="请输入错误登录提示" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux"></div>
+	   </div>
+	   <div class="layui-form-item" >
+		<div class="layui-input-block" style="text-align:center;">
+		  <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+	
+		</div>
+	  </div>
+	  </div>
+	{else}
+	  {if($plugins['isopen']!=1)}
+		<blockquote class="layui-elem-quote">您还未开启插件，该设置还未生效！</blockquote>
+	  {/if}
+		 <div class="layui-form-item">
+			<label class="layui-form-label">您的后台访问链接</label>
+			<div class="layui-input-block" >
+			  <input type="text" name="url"  disabled value="{fun get_domain()}{__APP_URL__}?{$config['password']}" autocomplete="off" class="layui-input">
+			</div>
+			<input type="hidden" name="reset"  value="1">
+		   </div>
+		   
+		   <div class="layui-form-item">
+			<div class="layui-input-block" style="text-align:center;">
+			  <button class="layui-btn" lay-submit lay-filter="formDemo">重置访问秘钥</button>
+		
+			</div>
+		  </div>
+	{/if}
+	</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			
+			  
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>
