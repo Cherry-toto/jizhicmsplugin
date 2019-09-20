@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">火车头采集Web发布插件</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1. 需要先去下载火车头采集工具</h3></li>
+		<li><h3>2. 安装该插件并设置好【登录密码】</h3></li>
+		<li><h3>3. 把插件带的【极致CMS火车头模块】导入火车头采集软件内</h3></li>
+		<li><h3>4. 在火车头里填写【全局变量设置】，这个就是你刚才设置的【登录密码】</h3></li>
+		<li><h3>5. 发布时请选择对应的栏目，看清楚栏目绑定的模块，别弄错了，不然无法导入</h3></li>
+		<li><h3>6. 插件默认是发布到内容模块(article)里面，如果你需要发布到别的模块，可以根据数据库表字段进行设置【不懂可以去官方QQ群774764507咨询解决】</h3></li>
+		<li><h3>*7. 内容发布参数说明，可以不按照我的写法，参考数据库表字段</h3>
+		<b>文章内容模块article[默认]</b>
+		<pre class="layui-code">tid:[标签:栏目ID]
+		title:[标签:文章标题]
+		addtime:[标签:时间]
+		body:[标签:内容]
+		----以下可以不传入---
+		litpic:[标签:缩略图]（默认自动提取内容缩略图）
+		seo_title:[标签:文章SEO标题]
+		keywords:[标签:关键词]
+		description:[标签:简介]</pre>
+		<b>商品模块product</b>
+		<pre class="layui-code">tid:[标签:栏目ID]
+		title:[标签:文章标题]
+		addtime:[标签:时间]
+		body:[标签:内容]
+		----以下可以不传入---
+		litpic:[标签:缩略图]（默认自动提取内容缩略图）
+		seo_title:[标签:文章SEO标题]
+		keywords:[标签:关键词]
+		description:[标签:简介]
+		pictures_urls[]:[标签:图集1]
+		pictures_urls[]:[标签:图集2](一次提交多个，按需写入)</pre>
+		<b style="color:red">[特殊]栏目模块classtype</b>
+		<pre class="layui-code">tid:[标签:栏目ID] (无意义，只是指定绑定，跟添加内容不关联)
+		pid:[标签:父类栏目ID]
+		classname:[标签:栏目名字]
+		molds:[标签:栏目绑定模型]
+		body:[标签:内容]
+		----以下可以不传入---
+		litpic:[标签:缩略图]（默认自动提取内容缩略图）
+		htmlurl:[标签:栏目URL]（默认自动提取栏目名字的拼音）
+		first:[标签:URL是否为栏目首字母]（跟栏目URL相关，默认不传入，传入数字（1~9）则表示栏目URL为栏目拼音首字母）
+		lists_num:[标签:列表显示条数]（默认10条）
+		keywords:[标签:关键词]
+		description:[标签:简介]</pre>
+		<b>扩展模块</b>
+		<pre class="layui-code">tid:[标签:栏目ID]（必须传入）
+		其余字段请根据扩展模块表里面的字段来写，参考数据库字段
+		</pre>
+		</li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
