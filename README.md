@@ -1,7 +1,9 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件 
 ## jizhicms_webapi   
-火车头采集Web发布插件，解压后，把webapi放到A/exts/文件夹下面，火车头规则导入进火车头里面，后台开启插件并配置好登录密码即可使用       
+火车头采集Web发布插件，解压后，把webapi放到A/exts/文件夹下面，火车头规则导入进火车头里面，后台开启插件并配置好登录密码即可使用     
+## msgsafe  
+留言提交安全插件，限制用户当天提交数      
 ## test  
 官方插件演示版demo    
 ## adminsafe   

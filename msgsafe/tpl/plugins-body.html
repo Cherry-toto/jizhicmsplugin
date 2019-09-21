@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  <blockquote class="layui-elem-quote">如果设置数量为0，则前台不能提交留言</blockquote>
+    <form class="layui-form layui-form-pane" action="">
+	<!--表单必须要携带ID-->
+	<input name="id" value="{$plugins['id']}" type="hidden">
+	<div class="xlx">
+	
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">限制同一号码当日提交数量</label>
+		<div class="layui-input-block">
+		<input type="number" name="telnumber" required  lay-verify="required" value="{if(isset($config['telnumber']))}{$config['telnumber']}{else}10{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">限制同一IP当日提交数量</label>
+		<div class="layui-input-block">
+		<input type="number" name="ipnumber" required  lay-verify="required" value="{if(isset($config['ipnumber']))}{$config['ipnumber']}{else}10{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">关闭提示信息</label>
+		<div class="layui-input-block">
+		<input type="text" name="msg" required  lay-verify="required" value="{if(isset($config['msg']))}{$config['msg']}{else}系统已关闭留言{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	     <div class="layui-form-item">
+			<div class="layui-input-block" style="text-align:center;">
+			  <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+		
+			</div>
+		  </div>
+	</div>
+	   
+	
+  </div>
+</form>
+</div>
+
+    <script>
+          $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			
+			  
+            });
+        })
+
+    </script>
+
+    
+ 
+</body>
+</html>

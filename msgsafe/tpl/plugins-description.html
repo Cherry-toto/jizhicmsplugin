@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">留言提交安全插件</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1.开启插件后生效</h3></li>
+		<li><h3>2.限制同一号码当日提交数量，达到后当天不能再次提交留言</h3></li>
+		<li><h3>3.限制同一IP当日提交数量，达到后当天不能再次提交留言</h3></li>
+		<li><h3>4.如果设置其中一个为0，则关闭留言</h3></li>
+		<li><h3>5.留言系统本身自带一个安全防御，10分钟内提交10条留言会提示过10分钟后才能提交</h3></li>
+		<li><h3>6.确保前台留言提交的参数带有手机号(tel),否则只有IP设置有效</h3></li>
+
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
