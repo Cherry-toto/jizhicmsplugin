@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+	<!--新增编辑器-->
+		<script type="text/javascript" charset="utf-8" src="{__Tpl_style__}/uedit/ueditor.config.js"></script>
+		<script type="text/javascript" charset="utf-8" src="{__Tpl_style__}/uedit/editor_api.js?v=333"> </script>
+		<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+		<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+		<script type="text/javascript" charset="utf-8" src="{__Tpl_style__}/uedit/lang/zh-cn/zh-cn.js"></script>
+		<script>
+		var ue = UE.getEditor('editor',{
+		{if($webconf['ueditor_config']!='')}
+		toolbars : [[
+				   {$webconf['ueditor_config']}
+					]]
+		{/if}			
+					});
+		</script>
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  <blockquote class="layui-elem-quote">{if($plugins['isopen']==1)}已开启留言发送邮件功能{else}还未开启留言发送邮件功能，如要使用，请先开启插件{/if}</blockquote>
+    <form class="layui-form layui-form-pane" action="">
+	<!--表单必须要携带ID-->
+	<input name="id" value="{$plugins['id']}" type="hidden">
+	<div class="xlx">
+	
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">发送服务器    <i style="color:red">默认不改</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="email_server" required  lay-verify="required" value="{if(isset($config['email_server']))}{$config['email_server']}{else}{$webconf['email_server']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">发送端口    <i style="color:red">默认不改</i></label>
+		<div class="layui-input-block">
+		<input type="number" name="email_port" required  lay-verify="required" value="{if(isset($config['email_port']))}{$config['email_port']}{else}{$webconf['email_port']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">发送用户名    <i style="color:red">接收邮件时显示的发送用户名</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="send_name" required  lay-verify="required" value="{if(isset($config['send_name']))}{$config['send_name']}{else}{$webconf['send_name']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">发送邮箱    <i style="color:red">推荐163,126邮箱，QQ邮箱暂不支持</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="send_email" required  lay-verify="required" value="{if(isset($config['send_email']))}{$config['send_email']}{else}{$webconf['send_email']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">客户端授权密码    <i style="color:red">POP3/SMTP/IMAP需要先开启，然后设置密码</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="send_pass" required  lay-verify="required" value="{if(isset($config['send_pass']))}{$config['send_pass']}{else}{$webconf['send_pass']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">接收邮箱    <i style="color:red">接收转发邮件的邮箱，必须是您经常使用的邮箱</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="shou_email" required  lay-verify="required" value="{if(isset($config['shou_email']))}{$config['shou_email']}{else}{$webconf['shou_email']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div>  
+	
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">接收邮件内容    <i style="color:red">在邮件内容对应变量位置插入对应的变量</i></label>
+		<div class="layui-input-block">
+		<table class="layui-table">
+		<tr><th>参数</th><th>变量</th><th>备注</th></tr>
+		<tr><td>留言标题</td><td>{title}</td><td>系统内置</td></tr>
+		<tr><td>相关栏目</td><td>{tid}</td><td>系统内置，默认：无</td></tr>
+		<tr><td>相关文章</td><td>{aid}</td><td>系统内置，默认：无</td></tr>
+		<tr><td>留言用户</td><td>{user}</td><td>系统内置</td></tr>
+		<tr><td>IP地址</td><td>{ip}</td><td>系统内置</td></tr>
+		<tr><td>留言电话</td><td>{tel}</td><td>系统内置</td></tr>
+		<tr><td>留言时间</td><td>{addtime}</td><td>系统内置</td></tr>
+		<tr><td>留言内容</td><td>{body}</td><td>系统内置</td></tr>
+		{loop table="fields" molds="message" as="v"}
+		<tr><td>{$v['fieldname']}</td><td>{{$v['field']}}</td>
+		<td>
+		{php 
+		switch($v['fieldtype']){
+			case 5:
+			echo '图片';
+			break;
+			case 7:
+			case 12:
+			echo '单选';
+			break;
+			case 8:
+			echo '多选';
+			break;
+			case 13:
+			echo '关联模型';
+			break;
+			default:
+			echo '字符串';
+			break;
+			
+			
+		}
+		
+		
+		/}
+		</td>
+		</tr>
+		{/loop}
+		</table>
+		</div>
+	</div> 
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">邮件标题    <i style="color:red">接收邮件显示的标题(支持变量)</i></label>
+		<div class="layui-input-block">
+		<input type="text" name="title" required  lay-verify="required" value="{if(isset($config['title']))}{$config['title']}{else}您的网站有新的留言通知-{$webconf['web_name']}{/if}" placeholder="" autocomplete="off" class="layui-input">
+		</div>
+	</div> 
+	<div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">邮件内容    <i style="color:red">支持HTML格式内容</i></label>
+		
+		<div class="layui-input-block" style="clear:both;" >
+		<script id="editor" name="body" type="text/plain" style="width:100%;height:300px;">
+		{if(isset($config['body']))}{$config['body']}{else}
+<table style="min-width:500px" width="708">
+    <tbody>
+        <tr class="firstRow">
+            <td colspan="1" rowspan="1" valign="null" width="null">
+                标题：
+            </td>
+            <td style="word-break: break-all;">
+                {title}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" rowspan="1" valign="null" width="null">
+                用户：
+            </td>
+            <td>
+                {user}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" rowspan="1" valign="null" width="null">
+                电话：
+            </td>
+            <td>
+                {tel}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1" rowspan="1" valign="null" width="null">
+                IP：
+            </td>
+            <td style="word-break: break-all;">
+                {ip}
+            </td>
+        </tr>
+      
+        <tr>
+            <td colspan="1" rowspan="1" valign="null" width="null">
+                时间：
+            </td>
+            <td style="word-break: break-all;">
+                {addtime}
+            </td>
+        </tr>
+    </tbody>
+</table>{/if}
+		</script>
+		</div>
+
+	</div> 
+	
+	<div class="layui-form-item">
+		<div class="layui-input-block" style="text-align:center;">
+		  <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+	
+		</div>
+	</div>
+	</div>
+	   
+	
+  </div>
+</form>
+</div>
+
+    <script>
+          $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			
+			  
+            });
+        })
+
+    </script>
+
+    
+ 
+</body>
+</html>

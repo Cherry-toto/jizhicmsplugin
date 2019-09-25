@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件 
+## msgemail   
+留言发送到邮箱功能，可自定义发送标题、内容
 ## jizhicms_webapi   
 火车头采集Web发布插件，解压后，把webapi放到A/exts/文件夹下面，火车头规则导入进火车头里面，后台开启插件并配置好登录密码即可使用     
 ## msgsafe  

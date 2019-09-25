@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">留言发送邮箱功能</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1.开启插件后生效</h3></li>
+		<li><h3>2.默认数据是调用系统配置里发送邮件的配置</h3></li>
+		<li><h3>3.该发送邮件的功能是独立的，跟系统配置的发送邮件不相关联</h3></li>
+		<li><h3>4.插件使用了“覆盖”的方式重写了Message控制器，如果有交叉功能请手动合并</h3></li>
+		<li><h3>5.支持发送标题、内容自定义</h3></li>
+		<li><h3>6.理论上可以把任何提交的内容发送到邮箱中，只需要将发送的变量放入对应的区域内</h3></li>
+
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
