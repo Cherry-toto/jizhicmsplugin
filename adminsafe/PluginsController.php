@@ -64,9 +64,9 @@ class PluginsController extends Controller {
 	public  function install(){
 		//下面是新增test表的SQL操作
 		//检测是否已安装前台插件
-		$filepath = APP_PATH.'Home/plugins/AdminLoginController.php';
+		$filepath = APP_PATH.'Admin/plugins/AdminLoginController.php';
 		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'前台Home下面已存在相应的Banip控制器！'));
+			JsonReturn(array('code'=>1,'msg'=>'后台Admin/plugins下面已存在相应的AdminLogin控制器！'));
 		}
 		//注册到hook里面
 		$w['module'] = 'A';
