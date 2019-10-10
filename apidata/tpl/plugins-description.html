@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">API数据接口</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1.设置允许查询的模块</h3></li>
+		<li><h3>2.设置接口秘钥</h3></li>
+		<li><h3>3.设置是IP白名单</h3></li>
+		<li><h3>4.设置是否开启检查IP访问权限</h3></li>
+		<li><h3>5.前台ajax请求数据方法：</h3></li>
+		<li><pre class="layui-code"><script>
+		$.ajax({
+		 url:"{!--fun U('GetData/index')--}",//请求的url地址
+		 dataType:"json",//返回格式为json
+		 async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+		 data:{model:'article',key:'123456',where:"{tid:1,isshow:1}",orders:'addtime desc',limit:1,fields:'id,title,litpic,body'},//参数值
+		 type:"POST",//请求方式
+		 beforeSend:function(){
+			//请求前的处理
+			},
+			 success:function(r){
+			//请求成功时处理，打印数据
+				console.log(r);
+			},
+			 complete:function(){
+			//请求完成的处理
+			},
+			 error:function(){
+			//请求出错处理
+			}
+			})
+			</script></pre></li>
+		
+		
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

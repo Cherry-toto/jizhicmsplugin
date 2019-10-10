@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  
+    <form class="layui-form layui-form-pane" action="">
+	<input name="id" type="hidden" value="{$plugins['id']}">
+	
+	<blockquote class="layui-elem-quote">请设置API的秘钥及允许查询的模块</blockquote>
+	<div class="xlx">
+	  
+	  <div class="layui-form-item">
+		<label class="layui-form-label">访问秘钥key</label>
+		<div class="layui-input-block">
+		  <input type="text" name="key"  required lay-verify="required" placeholder="请输入秘钥" value="{$config['key']}" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux"></div>
+	   </div>
+	  <div class="layui-form-item">
+		<label class="layui-form-label">允许查询的模块</label>
+		<div class="layui-input-block">
+		  <input type="text" name="tables" value="{if($config['tables'])}{$config['tables']}{else}article,product{/if}"  required lay-verify="required" placeholder="请输入允许查询的模块" autocomplete="off" class="layui-input">
+		</div>
+		<div class="layui-form-mid layui-word-aux">用[ , ]分割</div>
+	   </div>
+	  
+	  <div class="layui-form-item layui-form-text">
+		<label class="layui-form-label" style="text-align:center">IP白名单</label>
+		<div class="layui-input-block">
+		  <textarea name="iplist" placeholder="请输入允许接入的IP，用||分割" class="layui-textarea">{$config['iplist']}</textarea>
+		</div>
+		<div class="layui-form-mid layui-word-aux">用[ || ]分割</div>
+	  </div>
+	  <div class="layui-form-item">
+		<label class="layui-form-label">是否开启IP限制</label>
+		<div class="layui-input-block">
+		  <select name="ischeckip" lay-verify="required">
+			<option value="1" {if($config['ischeckip'] && $config['ischeckip']==1)}selected{/if}>开启</option>
+			<option value="2" {if($config['ischeckip'] && $config['ischeckip']==2)}selected{/if}>关闭</option>
+		
+		  </select>
+		</div>
+	  </div>
+	   <div class="layui-form-item" >
+		<div class="layui-input-block" style="text-align:center;">
+		  <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+	
+		</div>
+	  </div>
+	  </div>
+	
+	</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			
+			  
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>

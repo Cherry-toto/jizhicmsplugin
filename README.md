@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件 
+## apidata   
+系统API接口插件，实现API数据查询  
 ## msgemail   
 留言发送到邮箱功能，可自定义发送标题、内容
 ## jizhicms_webapi   
