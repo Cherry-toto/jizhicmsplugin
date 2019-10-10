@@ -1,5 +1,7 @@
 # jizhicmsplugin
-极致CMS的插件库，存放极致CMS各种插件 
+极致CMS的插件库，存放极致CMS各种插件
+## webhtml   
+独立静态网站插件  
 ## apidata   
 系统API接口插件，实现API数据查询  
 ## msgemail   

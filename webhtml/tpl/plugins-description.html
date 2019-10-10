@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">独立静态网站</h1>
+	<div style="margin:15px;">
+		<blockquote class="layui-elem-quote">概念：独立静态网站就是纯静态页面，完全是静态的，根目录不存在动态文件。</blockquote>
+		<blockquote class="layui-elem-quote">独立静态跟网站生成静态有什么不同？</blockquote>
+		<blockquote class="layui-elem-quote layui-quote-nm">网站生成静态是基于网站系统的，相对应的会有一层文件夹（根目录则不会有），从网站链接可以很容易看出来。<br/>
+		网站生成静态的链接是：http://xxx/abc/news.html abc为静态目录<br/>
+		网站生成静态的链接是：http://xxx/news.html 根目录[ / ]为静态目录<br/>
+		独立静态网站的链接是：http://xxx/news.html 静态目录可以是任何文件夹<br/>
+		
+		从网站系统根目录看，网站生成的静态根目录是index.php那个目录，而独立静态网站的根目录就是静态目录，因为网站路径是直接绑定到这个静态目录的。
+		</blockquote>
+		<blockquote class="layui-elem-quote">独立静态网站这个功能实用意义在哪里？什么时候需要用到？</blockquote>
+		<blockquote class="layui-elem-quote layui-quote-nm">适用于一些不经常更新的官网，政府网站，安全系数较高的网站。相当于一个静态网站，上线后别人无法攻破你的网站，如果是经常更新的网站就不建议这么做，因为每次更新都要生成一遍静态，比较麻烦。</blockquote>
+		<blockquote class="layui-elem-quote">使用上有什么需要注意的？</blockquote>
+		<blockquote class="layui-elem-quote layui-quote-nm">不适合虚拟主机用户，因为虚拟主机只有一个网站目录，除非你本地生成，再上传到空间。</blockquote>
+		
+		
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
