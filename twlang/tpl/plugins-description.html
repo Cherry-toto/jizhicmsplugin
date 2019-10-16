@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">简繁体切换说明</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h2>安装完毕后，开启插件，刷新页面，点击右上角顶部导航-切换语言-简体/繁体</h2></li>
+		<li><h2>注意：列表页繁体切换并不完美，表头的栏的未更换成繁体，如果真的要用繁体，请手动修改。</h2></li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

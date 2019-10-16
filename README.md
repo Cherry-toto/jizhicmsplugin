@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## twlang   
+简繁体后台语言切换插件 
 ## webhtml   
 独立静态网站插件  
 ## apidata   
