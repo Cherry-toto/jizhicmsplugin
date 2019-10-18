@@ -40,7 +40,7 @@
 		
 			</td>
 			
-			<td><input type="text" placeholder="不填默认全局" class="layui-input "  name="data_3[]" value=""></td>
+			<td><input type="text" placeholder="不填默认全局" class="layui-input "  name="data_3[]" value="{$v['tpl']}"></td>
 			
 			
           </tr>
@@ -114,7 +114,7 @@
 
 		
 		 function addone(){
-				var html='<tr><td><input placeholder="不带http" type="text" class="layui-input "  name="data_1[]" value=""></td><td><select name="data_2[]" ><option value="0">全局</option><option value="1">电脑端</option><option value="2">手机端</option><option value="3">微信端</option></select></td><td><select name="data_3[]" ><option value="">全局</option><option value="{$webconf['pc_template']}">{$webconf['pc_template']}</option><option value="{$webconf['wap_template']}">{$webconf['wap_template']}</option><option value="{$webconf['weixin_template']}">{$webconf['weixin_template']}</option></select></td></tr>';
+				var html='<tr><td><input placeholder="不带http" type="text" class="layui-input "  name="data_1[]" value=""></td><td><select name="data_2[]" ><option value="0">全局</option><option value="1">电脑端</option><option value="2">手机端</option><option value="3">微信端</option></select></td><td><input type="text" placeholder="不填默认全局" class="layui-input "  name="data_3[]" value=""></td></tr>';
 				
 				$(".addone").before(html);
 				layui.use('form', function(){
