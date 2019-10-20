@@ -3,6 +3,12 @@
 <head>
 	<meta charset="UTF-8">
 	{include="style"}
+	<style>
+	.layui-nav {padding:0;}
+	@media screen and (max-width: 768px){
+		.layui-nav .twlang{margin-right:20px;}
+	}
+	</style>
 	<script>
 	layui.use('element', function(){
 	var element = layui.element;
@@ -49,12 +55,12 @@
           <li class="layui-nav-item">
             <a href="javascript:;">{$admin['name']}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-              <dd><a x_href="{fun U('Index/details',['id'=>frencode($admin['id'])])}" class="top_nav_right"      >个人信息</a></dd>
+              <dd><a x_href="{fun U('Index/details',['id'=>frencode($admin['id'])])}" class="top_nav_right">个人信息</a></dd>
               
               <dd><a href="{fun U('Login/loginout')}">退出</a></dd>
             </dl>
           </li>
-		  <li class="layui-nav-item layui-nav layui-bg-green" lay-filter="lang" >
+		  <li class="layui-nav-item layui-nav twlang layui-bg-green to-index" lay-filter="lang" >
             <a href="javascript:;">切换语言</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
               <dd ><a  data="t">繁体</a></dd>
@@ -62,7 +68,7 @@
             </dl>
           </li>
 
-          <li class="layui-nav-item to-index"><a target="_blank" href="/">前台首页</a></li>
+          <li class="layui-nav-item"><a target="_blank" href="/">前台首页</a></li>
         </ul>
         
     </div>
