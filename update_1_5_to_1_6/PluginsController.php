@@ -130,15 +130,15 @@ class PluginsController extends Controller {
 			}
 		}
 		if($isgo_istop){
-			$sql = "ALTER TABLE ".DB_PREFIX."article ADD istop TINYINT(1)  default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."article ADD istop VARCHAR(2)  default '0' ";
 			M()->runSql($sql);
 		}
 		if($isgo_ishot){
-			$sql = "ALTER TABLE ".DB_PREFIX."article ADD ishot TINYINT(1)  default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."article ADD ishot VARCHAR(2)  default '0' ";
 			M()->runSql($sql);
 		}
 		if($isgo_istuijian){
-			$sql = "ALTER TABLE ".DB_PREFIX."article ADD istuijian TINYINT(1)  default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."article ADD istuijian VARCHAR(2)  default '0' ";
 			M()->runSql($sql);
 		}
 		
@@ -165,15 +165,15 @@ class PluginsController extends Controller {
 			}
 		}
 		if($isgo_istop){
-			$sql = "ALTER TABLE ".DB_PREFIX."product ADD istop TINYINT(1) default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."product ADD istop VARCHAR(2) default '0' ";
 			M()->runSql($sql);
 		}
 		if($isgo_ishot){
-			$sql = "ALTER TABLE ".DB_PREFIX."product ADD ishot TINYINT(1) default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."product ADD ishot VARCHAR(2) default '0' ";
 			M()->runSql($sql);
 		}
 		if($isgo_istuijian){
-			$sql = "ALTER TABLE ".DB_PREFIX."product ADD istuijian TINYINT(1)  default '0' ";
+			$sql = "ALTER TABLE ".DB_PREFIX."product ADD istuijian VARCHAR(2)  default '0' ";
 			M()->runSql($sql);
 		}
 		
