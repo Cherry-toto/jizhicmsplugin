@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## imagethumbnail   
+生成多种尺寸的缩略图，可以同时生成大中小三种尺寸图片，尺寸可以安装比例和固定宽高而定 
 ## twlang   
 简繁体后台语言切换插件 
 ## webhtml   

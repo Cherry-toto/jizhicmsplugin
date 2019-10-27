@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">生成多种尺寸的缩略图</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1. 群友反映客户不懂裁剪压缩图片尺寸，希望制作一个插件能够自动裁剪多个尺寸缩略图，以便前台调用</h3></li>
+		<li><h3>2. 安装插件后，需要设定裁剪的图片尺寸</h3></li>
+		<li><h3>3. 尺寸比例和固定尺寸不能同时起效，设定了固定尺寸，就不会按照比例去裁剪，请大家使用时注意一下</h3></li>
+		<li><h3>4. 设置完记得点击开启插件，否则不会生效哦！</h3></li>
+		<li><h3>5. 默认数据库存储的是中等尺寸图片</h3></li>
+		<li><h3>6. 在FunctionsExt.php里面添加如下代码：</h3></li>
+		<li><pre class="layui-code">function showpic($litpic='',$type='d'){
+if($litpic==''){
+return '';
+}
+if($type=='d'){
+return $litpic;
+}else if($type=='s'){
+$fileurl = str_replace('.','_s.',$litpic);
+return $fileurl;
+}else if($type=='l'){
+$fileurl = str_replace('.','_l.',$litpic);
+return $fileurl;
+}else{
+return $litpic;
+}
+}</pre>
+		</li>
+		<li><h3>7. 前台输出图片：</h3></li>
+		<li><pre class="layui-code">假设图片为：$v['litpic']
+		中图(默认图片)：{!--$v['litpic']--}或{!--fun showpic($v['litpic'])--}或{!--fun showpic($v['litpic'],'d')--}
+		小图：{!--fun showpic($v['litpic'],'s')--}
+		大图：{!--fun showpic($v['litpic'],'l')--}</pre></li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':false}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
