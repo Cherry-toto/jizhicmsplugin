@@ -158,27 +158,27 @@
 				//console.log(data.field);return false;
 					$.ajax({
 						 url:"{fun U('WebHtml/index')}",
-						// dataType:"json",
+						 dataType:"json",
 						 async:true,
 						 data:data.field,
 						 type:"POST",
 						 beforeSend:function(){
 							//请求前的处理
 							
-							layer.open({
-							  type: 1,
-							  title:'提示',
-							  skin: 'layui-layer-rim', //加上边框
-							  area: ['520px', '340px'], //宽高
-							  content: '正在更新HTML，请稍后……<br/>',
-							  id:'msg'
-							});
+							layer.msg('正在处理~');
 							
 							//layui-icon-loading
 						},
 						 success:function(r){
 							
-							$("#msg").append(r);
+							if(r.code==1){
+								layer.aler(r.msg);
+							}else{
+								layer.msg('正在准备生成静态，请不要关闭页面~',function(){
+									window.location.reload();
+								});
+							}
+							
 							
 						},
 						 complete:function(){
@@ -209,24 +209,23 @@
 			var path = $("#path").val();
 			$.ajax({
 				 url:"{fun U('WebHtml/index')}",
-				// dataType:"json",
+				 dataType:"json",
 				 async:true,
 				 data:{type:1,model:model,isshow:isshow,tid:tid,path:path},
 				 type:"POST",
 				 beforeSend:function(){
-					layer.open({
-					  type: 1,
-					  title:'提示',
-					  skin: 'layui-layer-rim', //加上边框
-					  area: ['520px', '340px'], //宽高
-					  content: '正在更新HTML，请稍后……<br/>',
-					  id:'msg'
-					});
+					layer.msg('正在处理~');
 							
 				},
 				 success:function(r){
 				
-					$("#msg").append(r);
+					if(r.code==1){
+						layer.aler(r.msg);
+					}else{
+						layer.msg('正在准备生成静态，请不要关闭页面~',function(){
+							window.location.reload();
+						});
+					}
 				},
 				 complete:function(){
 				//请求完成的处理
