@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">栏目模板便签插件</h1>
+	<div style="margin:15px;text-align:center;">
+		<h3>1. 如果项目模板文件目录不是[ Home/<span style="color:#f00">template</span> ]，请设置你的项目模板文件目录</h3>
+		<h3>2. 项目模板文件目录可以在[ index.php ]入口文件里面更改，以增加安全性！</h3>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

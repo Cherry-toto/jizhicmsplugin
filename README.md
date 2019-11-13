@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## classtypetemplate   
+栏目模板标签，创建栏目时可以直接选择对应的模板文件  
 ## update_1_6_1_to_1_6_2   
 更新插件(仅从v1.6.1 更新到 v1.6.2)  
 ## restore
