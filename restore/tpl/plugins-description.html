@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">修复v1.6x版本BUG</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>近期有些用户使用的时候发现保存发表文章会无法提交，究其原因是因为MySQL5.x以上高版本有个更新，整数类型不能提交0的数据，而新增加的推荐属性是tinyint类型的，默认值为0，提交的时候会提交0，从而不能保存很发布信息。现将推荐属性的字段类型改为varchar。</h3></li>
+		
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

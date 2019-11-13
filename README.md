@@ -1,5 +1,9 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## update_1_6_1_to_1_6_2   
+更新插件(仅从v1.6.1 更新到 v1.6.2)  
+## restore
+修复v1.6x版本BUG  
 ## imagethumbnail   
 生成多种尺寸的缩略图，可以同时生成大中小三种尺寸图片，尺寸可以安装比例和固定宽高而定 
 ## twlang   
