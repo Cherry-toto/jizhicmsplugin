@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+	<style>
+	.layui-form-pane .layui-form-label{
+		width:100%;
+	}
+	.layui-form-pane .layui-input-block{
+		margin-left:0;
+	}
+	</style>
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+  <blockquote class="layui-elem-quote">无需配置，刷新页面，看左侧栏目底部伪原创插件，如果要更换左侧栏位置，请到-[ 系统扩展 ]-[ 桌面设置 ]-选择对应的配置进行修改分配</blockquote>
+    <form class="layui-form layui-form-pane" action="">
+	<input name="id" type="hidden" value="{$plugins['id']}">
+	
+	
+	
+	</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+			  
+			  
+			  
+			  
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+       <meta charset="UTF-8">
+        {include="style"}
+		
+		
+    </head>
+    
+    <body>
+	 <div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>伪原创插件</cite></a>
+             
+			 
+            </span>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="iconfont" style="line-height:30px">&#xe6aa;</i></a>
+        </div>
+        <div class="x-body">
+         <blockquote class="layui-elem-quote">推荐1000字以内，最多1500字，否则可能会无法伪原创</blockquote>
+        	<form class="layui-form layui-form-pane">
+        	<input type="hidden" name="go" value="1">
+            <div class="layui-tab-item layui-show">
+				 <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        <span class="x-red">*</span>原文 <i class="x-red">字数：<span id="num">0</span></i>
+                    </label>
+                    <div class="layui-input-block">
+                        <textarea style="height:200px;"  onKeyUp="cal_words()" placeholder="将原文放入这里"  name="body" id="body" class="layui-textarea"></textarea>
+                    </div>
+                </div>	
+                <div class="layui-form-item" style="text-align:center;">
+                    
+                     <button  class="layui-btn" lay-filter="save" lay-submit="">
+                        智能伪原创
+                    </button>
+                </div>
+       			<div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        <span class='x-red'>*</span>伪原创   <span class="x-red">CTRL+A,CTRL+C 快速全选，并复制内容</span>
+                    </label>
+                    <div class="layui-input-block">
+                        <textarea style="height:200px;" placeholder="伪原创的内容显示在这里"  name="wyc" id="wyc" class="layui-textarea"></textarea>
+                    </div>
+                </div>	
+                
+                
+           </div>
+           </form>
+        </div>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+      
+        <script>
+	function cal_words(){
+		var data =  document.getElementById("body").value.replace(/\s*/g,"");
+		  var length = data.length;
+
+		  document.getElementById("num").innerHTML = length;
+		}
+			
+            layui.use(['laydate','form','layer','upload'], function(){
+                $ = layui.jquery;
+              var form = layui.form
+              ,layer = layui.layer;
+			  laydate = layui.laydate;
+			  var upload = layui.upload;
+			 
+			  
+			    //监听提交
+              form.on('submit(save)', function(data){
+              	$.ajax({
+				 url:"{fun U('jzwyc/index')}",//请求的url地址
+				 dataType:"json",//返回格式为json
+				 async:true,//请求是否异步，默认为异步，这也是ajax重要特性
+				 data:data.field,//参数值
+				 type:"POST",//请求方式
+				 beforeSend:function(){
+					//请求前的处理
+					layer.msg('正在处理，请稍后~');
+					},
+					 success:function(r){
+					 	console.log(r);
+					//请求成功时处理
+						if(r.code==0){
+							//console.log(r);
+							$("#wyc").html(r.data);
+						}else{
+							layer.alert(r.msg, {icon: 5});
+						}	
+					},
+					 complete:function(){
+					//请求完成的处理
+					},
+					 error:function(){
+					//请求出错处理
+					}
+
+						
+				
+			 })
+				
+				
+               
+                return false;
+              });
+			
+		
+			
+           
+              
+              
+            });
+        </script>
+      
+    </body>
+
+</html>
