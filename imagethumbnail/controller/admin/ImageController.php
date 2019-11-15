@@ -105,9 +105,10 @@ class ImageController extends Controller
 				}
 				//判断是否为图片
 				//是否处理gif图
-				$plugin = M('plugins')->find(['filepath'=>'imagethumbnail']);
-				$config = json_decode($plugin['config'],1);
-				if($config['gif_open']==1){
+				$plugin = M('plugins')->find(['filepath'=>'imagethumbnail','isopen'=>1]);
+				if($plugin){
+				   $config = json_decode($plugin['config'],1);
+				   if((strtolower($pix)=='gif' && $config['gif_open']==1) || strtolower($pix)!='gif'){
 					if(strtolower($pix)=='png' || strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' || strtolower($pix)=='gif' || strtolower($pix)=='wbmp' ){
 						//对图片进行处理
 						//$filename = 'book_rabbit_rule.jpg'; 
@@ -242,6 +243,7 @@ class ImageController extends Controller
 					
 						imagedestroy($im);
 					
+					 }
 					}
 				}
 				
