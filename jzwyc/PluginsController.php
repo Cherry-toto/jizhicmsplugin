@@ -79,9 +79,10 @@ class PluginsController extends Controller {
 		//写入系统权限控制
 		$w['name'] = '伪原创';
 		$w['fc'] = 'Jzwyc';
-		M('ruler')->add($w);
+		$pid = M('ruler')->add($w);
 		$w['name'] = '文章伪原创';
 		$w['fc'] = 'Jzwyc/index';
+		$w['pid'] = $pid;
 		$w['isdesktop'] = 1;
 		$n = M('ruler')->add($w);
 		
@@ -90,7 +91,7 @@ class PluginsController extends Controller {
 		$left_layout = json_decode($dao['left_layout'],1);
 		$left_layout[]=[
 			"name" => "文章伪原创",
-			"icon" => "&#xe6a2;",
+			"icon" => '&amp;#xe6a2;',
 			"nav" => array($n)
 		];
 		$left_layout = json_encode($left_layout,JSON_UNESCAPED_UNICODE);
