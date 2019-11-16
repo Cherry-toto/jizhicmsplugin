@@ -80,9 +80,10 @@ class PluginsController extends Controller {
 		//写入系统权限控制
 		$w['name'] = '独立静态网站';
 		$w['fc'] = 'WebHtml';
-		M('ruler')->add($w);
+		$pid = M('ruler')->add($w);
 		$w['name'] = '生成静态网站';
 		$w['fc'] = 'WebHtml/index';
+		$w['pid'] = $pid;
 		$w['isdesktop'] = 1;
 		$n = M('ruler')->add($w);
 		
@@ -91,7 +92,7 @@ class PluginsController extends Controller {
 		$left_layout = json_decode($dao['left_layout'],1);
 		$left_layout[]=[
 			"name" => "独立静态网站",
-			"icon" => "&#xe6da;",
+			"icon" => "&amp;#xe6da;",
 			"nav" => array($n)
 		];
 		$left_layout = json_encode($left_layout,JSON_UNESCAPED_UNICODE);
