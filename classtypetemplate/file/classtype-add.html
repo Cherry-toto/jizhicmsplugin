@@ -378,7 +378,7 @@
 						if(r.code==0){
 							var len = r.data.length;
 							if(len>0){
-								
+								t+='<option value="">请选择模板页面</option>';
 								for(var i=0;i<len;i++){
 
 									t+='<option value="'+r.data[i].value+'">'+r.data[i].html+'</option>';
