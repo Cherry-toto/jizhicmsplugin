@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">栏目导航转化</h1>
+	<div style="margin:15px;">
+		<blockquote class="layui-elem-quote">本插件实现栏目可以在桌面设置中选择，实现栏目在桌面导航显示。最好是所有栏目弄好后，再去设置桌面，减少不必要的麻烦。</blockquote>
+		<blockquote class="layui-elem-quote">插件注意事项说明</blockquote>
+		<blockquote class="layui-elem-quote layui-quote-nm">
+		1、本插件安装后，必须<span style="color:#f00;font-weight: 800"> 【开启插件】 </span>，否则新增修改的栏目无法更新<br>
+		2、如果有栏目绑定会员、订单、会员分组、留言、评论、友情链接、TAG等模块，不具备内容列表的模块，判定为<span style="color:#f00;font-weight: 800"> 【单页】 </span>，跳转链接是修改栏目内容的链接<br>
+		3、文章模块、商品模块、自定义模块(除第3点所述的模块外)绑定的栏目，如果<span style="color:#f00;font-weight: 800"> 【详情页模板】 </span>为空，同样判定为<span style="color:#f00;font-weight: 800"> 【单页】 </span><br>
+		4、安装后卸载本插件，栏目数据还会存在于自定义桌面中，权限表里面也会有，请手动清理<br>
+		<span style="color:#f00;font-weight: 800">5、删除栏目的时候一定要注意，如果配置了对应栏目的桌面，需要去桌面设置里面清除下(重新提交)，否则会报错</span>
+
+		</blockquote>
+		<blockquote class="layui-elem-quote">举个例子</blockquote>
+		<blockquote class="layui-elem-quote layui-quote-nm">
+		已有栏目：<br>
+		【公司新闻】--后台需要录入文章<br>
+		【关于我们】--单页栏目，只需要修改栏目内容，不需要录入文章<br>
+	我们希望用户点击左侧导航【公司新闻】的时候直接跳转到对应的栏目列表，进行【公司新闻】栏目筛选<br>
+	点击左侧导航【关于我们】的时候跳转到栏目内容修改页，即【单页】<br>
+	您需要把【关于我们】这个栏目的【详情页模板】设置为空（不选择），这样系统会判断为【单页】
+		</blockquote>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

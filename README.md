@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## classtypenav   
+栏目导航转化，所有栏目可以直接在桌面设置中找到，可以设置为导航  
 ## jzwyc   
 伪原创插件    
 ## classtypetemplate   
