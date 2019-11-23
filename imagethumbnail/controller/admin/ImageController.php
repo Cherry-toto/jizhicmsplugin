@@ -146,8 +146,10 @@ class ImageController extends Controller
 								$new_img_small_height = $config['small_value_y'];
 							}
 							
-							$small_w = $new_img_small_width>$w ? $w : $new_img_small_width;
-							$small_h = $new_img_small_height>$h ? $h : $new_img_small_height;
+							// $small_w = $new_img_small_width>$w ? $w : $new_img_small_width;
+							// $small_h = $new_img_small_height>$h ? $h : $new_img_small_height;
+							$small_w = $w;
+							$small_h = $h;
 							
 							$newim_small = imagecreatetruecolor($new_img_small_width, $new_img_small_height); 
 							imagecopyresampled($newim_small, $im, 0, 0, 0, 0, $new_img_small_width, $new_img_small_height, $small_w, $small_h); 
@@ -185,9 +187,10 @@ class ImageController extends Controller
 								$new_img_thumbnail_width = $config['default_value_x'];
 								$new_img_thumbnail_height = $config['default_value_y'];
 							}
-							$thumbnail_w = $new_img_thumbnail_width>$w ? $w : $new_img_thumbnail_width;
-							$thumbnail_h = $new_img_thumbnail_height>$h ? $h : $new_img_thumbnail_height;
-							
+							// $thumbnail_w = $new_img_thumbnail_width>$w ? $w : $new_img_thumbnail_width;
+							// $thumbnail_h = $new_img_thumbnail_height>$h ? $h : $new_img_thumbnail_height;
+							$thumbnail_w = $w;
+							$thumbnail_h = $h;
 							
 							$newim_thumbnail = imagecreatetruecolor($new_img_thumbnail_width, $new_img_thumbnail_height); 
 							imagecopyresampled($newim_thumbnail, $im, 0, 0, 0, 0, $new_img_thumbnail_width, $new_img_thumbnail_height, $thumbnail_w, $thumbnail_h); 
@@ -219,9 +222,10 @@ class ImageController extends Controller
 								$new_img_large_width = $config['large_value_x'];
 								$new_img_large_height = $config['large_value_y'];
 							}
-							$large_w = $new_img_large_width>$w ? $w : $new_img_large_width;
-							$large_h = $new_img_large_height>$h ? $h : $new_img_large_height;
-							
+							//$large_w = $new_img_large_width>$w ? $w : $new_img_large_width;
+							//$large_h = $new_img_large_height>$h ? $h : $new_img_large_height;
+							$large_w = $w;
+							$large_h = $h;
 							$newim_large = imagecreatetruecolor($new_img_large_width, $new_img_large_height); 
 							imagecopyresampled($newim_large, $im, 0, 0, 0, 0, $new_img_large_width, $new_img_large_height, $large_w, $large_h); 
 							if(strtolower($pix)=='png'){
