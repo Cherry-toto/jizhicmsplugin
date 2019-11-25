@@ -1,5 +1,9 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## update_1_6_2_to_1_6_3 
+更新插件(仅从v1.6.2 升级到 v1.6.3)  
+## Skycaiji 
+蓝天采集插件  
 ## classtypenav   
 栏目导航转化，所有栏目可以直接在桌面设置中找到，可以设置为导航  
 ## jzwyc   
