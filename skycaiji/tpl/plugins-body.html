@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin: 10px;">
+    <form class="layui-form layui-form-pane" action="">
+	<!--表单必须要携带ID-->
+	<blockquote class="layui-elem-quote">Skycaiji配置，将采集API接口放进接口地址里</blockquote>
+	<input name="id" value="{$plugins['id']}" type="hidden">
+   	   <div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">采集接口密码</label>
+		<div class="layui-input-block">
+		  <input name="password" value="{$config['password']}" class="layui-input" />
+		</div>
+		
+	  </div>
+	   <div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">采集API接口 <span style="color:#f00">只填写上面密码即可</span></label>
+		<div class="layui-input-block">
+		  <input name="api" readonly="" value="{fun get_domain()}/Skycaiji/index?pw={$config['password']}" class="layui-input" />
+		</div>
+	  </div>
+	  <div class="layui-form-item layui-form-text">
+		<label class="layui-form-label">是否开启伪原创</label>
+		<div class="layui-input-block">
+		 <input type="radio" name="iswyc" value="0" title="否">
+         <input type="radio" name="iswyc" value="1" title="是" checked>
+		</div>
+		
+	  </div>
+	 
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+
+    </div>
+  </div>
+</form>
+</div>
+
+    <script>
+        $(function  () {
+			
+            layui.use('form', function(){
+              var form = layui.form;
+             
+              //监听提交
+              form.on('submit(formDemo)', function(data){
+           
+				$.post("{fun U('setconf')}",data.field,function(res){
+				    //console.log(res);return false;
+					 var res = JSON.parse(res);
+					 if(res.code==1){
+						layer.msg(res.msg);
+					 }else{
+						layer.msg(res.msg, {icon: 6,time: 2000},function(){
+						window.location.reload();
+						});
+                     
+						
+						 
+					 }
+				})
+				
+                return false;
+              });
+            });
+        })
+
+        
+    </script>
+
+    
+ 
+</body>
+</html>

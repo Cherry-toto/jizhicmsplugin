@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">Skycaiji采集API接口</h1>
+	<div style="margin:15px;">
+		<ol>
+		<li><h3>1. 需要先安装Skycaiji系统</h3></li>
+		<li><h3>2. 安装该插件并设置好【接口密码】</h3></li>
+		<li><h3>3. 在蓝天采集程序发布设置上面，选择发布方式为【调用接口】，把API地址放到下面【接口地址】栏里面</h3></li>
+		<li><h3>4. 开启伪原创后，仅支持【文章模块】的标题(title)，SEO标题(seo_title)，关键字(keywords)，内容(body)将会进行伪原创</h3></li>
+		<li><h3>5. 发布时请填写对应的栏目tid，看清楚栏目绑定的模块，别弄错了，不然无法发布</h3></li>
+		<li><h3>*6. 内容发布参数说明，可以不按照我的写法，参考数据库表字段</h3>
+		<b>文章内容模块article[默认]</b>
+		<pre class="layui-code">tid:[采集字段:栏目ID]
+		title:[采集字段:文章标题]
+		addtime:[采集字段:时间]
+		body:[采集字段:内容]
+		----以下可以不传入---
+		litpic:[采集字段:缩略图]（默认自动提取内容缩略图）
+		seo_title:[采集字段:文章SEO标题]
+		keywords:[采集字段:关键词]
+		description:[采集字段:简介]</pre>
+		<b>商品模块product</b>
+		<pre class="layui-code">tid:[采集字段:栏目ID]
+		title:[采集字段:文章标题]
+		addtime:[采集字段:时间]
+		body:[采集字段:内容]
+		----以下可以不传入---
+		litpic:[采集字段:缩略图]（默认自动提取内容缩略图）
+		seo_title:[采集字段:文章SEO标题]
+		keywords:[采集字段:关键词]
+		description:[采集字段:简介]
+		pictures_urls[]:[采集字段:图集1]
+		pictures_urls[]:[采集字段:图集2](一次提交多个，按需写入)</pre>
+		<b style="color:red">[特殊]栏目模块classtype</b>
+		<pre class="layui-code">tid:[采集字段:栏目ID] (无意义，只是指定绑定，跟添加内容不关联)
+		pid:[采集字段:父类栏目ID]
+		classname:[采集字段:栏目名字]
+		molds:[采集字段:栏目绑定模型]
+		body:[采集字段:内容]
+		----以下可以不传入---
+		litpic:[采集字段:缩略图]（默认自动提取内容缩略图）
+		htmlurl:[采集字段:栏目URL]（默认自动提取栏目名字的拼音）
+		first:[采集字段:URL是否为栏目首字母]（跟栏目URL相关，默认不传入，传入数字（1~9）则表示栏目URL为栏目拼音首字母）
+		lists_num:[采集字段:列表显示条数]（默认10条）
+		keywords:[采集字段:关键词]
+		description:[采集字段:简介]</pre>
+		<b>扩展模块</b>
+		<pre class="layui-code">tid:[采集字段:栏目ID]（必须传入）
+		其余字段请根据扩展模块表里面的字段来写，参考数据库字段
+		</pre>
+		</li>
+		</ol>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
