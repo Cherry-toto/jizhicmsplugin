@@ -119,7 +119,7 @@ class QqController extends CommonController
 		    	if($user_data['ret']!=0){
 		    		Error($user_data['msg'],U('Login/index'));
 		    	}
-		    	$w['username'] = $user_data->nickname;
+		    	$w['username'] = $user_data['nickname'];
 		    	
 		    	$res = M('member')->find(array('qq_openid'=>$user->openid));
 			  	if($res){
@@ -150,9 +150,9 @@ class QqController extends CommonController
 			  	}else{
 			  		
 			  		//获取QQ
-			  		$qq_1 = str_replace('http://qzapp.qlogo.cn/qzapp/','',$user_data['figureurl_2']);
-			  		$qq_2 = explode('/',$qq_1);
-			  		$w['email'] = $qq_2[0].'@qq.com';
+			  		//$qq_1 = str_replace('http://qzapp.qlogo.cn/qzapp/','',$user_data['figureurl_2']);
+			  		//$qq_2 = explode('/',$qq_1);
+			  		//$w['email'] = $qq_2[0].'@qq.com';
 			  		$w['sex'] = (!isset($user_data['gender']) || $user_data['gender']=='男') ? 1 : 2;
 			  		$w['username'] = $user_data['nickname'];
 			  		$w['litpic'] = $user_data['figureurl_2'];
