@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## qqlogin 
+网站实现QQ一键登录插件  
 ## baiduseo 
 百度站长推送，百度熊掌号推送插件   
 ## update_1_6_2_to_1_6_3 
