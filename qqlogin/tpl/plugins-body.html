@@ -27,7 +27,7 @@
      <div class="layui-form-item layui-form-text">
     <label class="layui-form-label">QQ前台登录地址 <b class="x-red">将该地址放到QQ应用平台回调地址</b></label>
     <div class="layui-input-block">
-      <input type="text" name="return_url" value="{if(isset($config['return_url']))}{$config['return_url']}{else}{fun U('qq/index')}{/if}" placeholder="无需填写"  readonly="readonly" class="layui-input" />
+      <input type="text" name="return_url" value="{if(isset($config['return_url']))}{$config['return_url']}{else}{fun get_domain()}/qq/index{/if}" placeholder="无需填写"  readonly="readonly" class="layui-input" />
     </div>
     
     </div>

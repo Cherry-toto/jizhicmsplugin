@@ -139,18 +139,9 @@ class PluginsController extends Controller {
 	//获取插件内提交的数据处理
 	public function setconfigdata($data){
 		//ids
-		$plugin = M('plugins')->find(['id'=>$data['id']]);
-		$config = $plugins['config']=='' ? [] : json_decode($plugins['config'],true);
-		$config['baiduwebapi'] = format_param($data['baiduwebapi'],1);
-		$config['baiduxzapi'] = format_param($data['baiduxzapi'],1);
-		$config['puttime'] = (int)$data['puttime'];
-		$config['puttype'] = format_param($data['puttype'],1);
 		
-		if(!isset($config['updatetime'])){
-			$config['updatetime'] = 0;
-			$config['ids'] = '';
-		}
-		
+		$config['appid'] = format_param($data['appid'],1); 
+		$config['appsecret'] = format_param($data['appsecret'],1); 
 
 		M('plugins')->update(['id'=>$data['id']],['config'=>json_encode($config,JSON_UNESCAPED_UNICODE)]);
 		setCache('hook',null);//清空hook缓存

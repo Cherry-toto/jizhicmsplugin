@@ -25,8 +25,8 @@ class QqController extends CommonController
 	  // 如：https://www.jizhicms.cn/QQ/index
 	  private $return_url = '';
 
-	  function _ini(){
-	  	  parents::_ini();
+	  function _init(){
+	  	  parent::_init();
 	  	  //检查插件是否开启
 	  	  //
 	  	  $plugin = M('plugins')->find(['filepath'=>'qqlogin','isopen'=>1]);
@@ -37,9 +37,10 @@ class QqController extends CommonController
 	  	  if(!isset($config['appid']) || !isset($config['appsecret'])){
 	  	  	Error('登录错误：appid和appsecret不能为空！');
 	  	  }
+	  	 
 	  	  $this->app_id = $config['appid'];
 	  	  $this->app_secret = $config['appsecret'];
-	  	  $this->return_url = U('qq/index');
+	  	  $this->return_url = get_domain()."/qq/index";
 
 	  	  //检查是否有设置refer
 	  	  if(!isset($_SESSION['return_url'])){
@@ -60,6 +61,8 @@ class QqController extends CommonController
 		    $dialog_url = "https://graph.qq.com/oauth2.0/authorize?response_type=code&client_id="
 		    .$this->app_id."&redirect_uri=" . urlencode($this->return_url) . "&state="
 		     . $_SESSION['state'];
+
+		    
 		     echo("<script> top.location.href='" . $dialog_url . "'</script>");
 		     exit;
 		   }
@@ -116,7 +119,7 @@ class QqController extends CommonController
 		    	if($user_data['ret']!=0){
 		    		Error($user_data['msg'],U('Login/index'));
 		    	}
-		    	$w['username'] = $user_data['nickname'];
+		    	$w['username'] = $user_data->nickname;
 		    	
 		    	$res = M('member')->find(array('qq_openid'=>$user->openid));
 			  	if($res){
@@ -147,19 +150,21 @@ class QqController extends CommonController
 			  	}else{
 			  		
 			  		//获取QQ
-			  		//$qq_1 = str_replace('http://qzapp.qlogo.cn/qzapp/','',$user_data['figureurl_2']);
-			  		//$qq_2 = explode('/',$qq_1);
-			  		//$w['email'] = $qq_2[0].'@qq.com';
+			  		$qq_1 = str_replace('http://qzapp.qlogo.cn/qzapp/','',$user_data['figureurl_2']);
+			  		$qq_2 = explode('/',$qq_1);
+			  		$w['email'] = $qq_2[0].'@qq.com';
 			  		$w['sex'] = (!isset($user_data['gender']) || $user_data['gender']=='男') ? 1 : 2;
 			  		$w['username'] = $user_data['nickname'];
 			  		$w['litpic'] = $user_data['figureurl_2'];
 					$w['pass'] = '123456';
 					$w['tel'] = '';
+					$w['qq_openid'] = $user->openid;
 					$w['gid'] = 1;
 					$w['regtime'] = time();
 					$w['logintime'] = time();
 					$r = M('member')->add($w);
 					if($r){
+						$w = M('member')->find(['id'=>$r]);//再次查询一次，把默认数据放进去
 						unset($w['pass']);
 						$group = M('member_group')->find(array('id'=>1));
 				  		if(!$group){
