@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+ <div class="layui-rows" style="    margin: 10px;">
+  <div class="layui-rows" style="    margin-top: 10px;">
+    <h1 style="text-align:center">独立mysql 1.6.3升级1.6.4版本更新插件</h1>
+	<h5 style="text-align:center">发布时间：2020-01-04</h5>
+	<blockquote class="layui-elem-quote">请做好数据库备份再更新！<br/>更新插件不更新前台HTML示例代码，如果使用官方的demo搭建的网站，<br/>请下载官方源码，再复制对应的前端资料进去系统，有问题QQ群咨询。</blockquote>
+	<blockquote class="layui-elem-quote layui-quote-nm">
+1、修复手机模式下，后台首页提示报错<br/>
+2、修复插件文件夹存在zip压缩包报错<br/>
+3、修复后台定时器，保持后台session持续<br/>
+4、修复后台留言详情页，提交时ip被修改的错误<br/>
+5、修复后台模板风格-原始-关闭阴影点击触发关闭窗口<br/>
+6、修复数据库新增内容的时候，不能录入空而导致无法新增的bug<br/>
+7、更改hook方式，防止数据库反斜杠丢失带来错误<br/>
+8、取消U方法首字母大写转换，按原字母大小写<br/>
+9、截取字符串的时候，将&nbsp;空格过滤<br/>
+10、增加动态访问链接实现<br/>
+11、修复empty和notempty不处理null的问题<br/>
+12、修复loop中like查询，并增强like查询，支持格式：like='字段|关键词'，like='字段1|关键词1,字段2|关键词2'，like='字段1|变量1'，like='字段1|变量1,字段2|变量2'，like='字段1|关键词1,字段2|变量'<br/>
+13、loop可以使用limit从第几条开始输出，如：limit="1,10",输出10条，从第2条开始输出，需要注意一点，limit="开始数,输出条数"，数据库是从0开始计数的，也就是从第一条输出是这样的：limit="0,10"<br/>
+14、修复开启层级URL后，栏目修改父类时，子栏目URL不更改<br/>
+15、修改模板错误提示，去除绝对模板路径，只显示相对模板路径<br/>
+16、loop标签新增一个day参数，按天调用数据，如：最近1天、3天、7天这种调用，可以{!--loop xxx day="1" as="$v"--}【该方法由群友分享，昵称：MingTian】<br/>
+17、修复栏目新增字段绑定bug，栏目页面没有新增字段显示问题<br/>
+18、修复插件模块Home/plugins/HomeController->jizhi无效的bug<br/>
+19、备份数据库列表不再显示副本<br/>
+20、修复数据库导入副本顺序错误问题<br/>
+21、修复tags分页及系统Page分页类优化<br/>
+22、数组分页类增加自定义分页输出<br/>
+23、多模块搜索和tags标签增加pagelist分页数组参数，可自定义输出分页<br/>
+24、后台增加$classtypedata全局栏目<br/>
+25、loop循环支持省略table参数，但必须同时要填写tid数值，tid可以写多个，但以第一个数值的栏目绑定模块为主。支持：{!--loop tid="2" isshow="1" as="v"--}、{!--loop tid="2,3,4" isshow="1" as="v"--}（table默认为栏目id=2的模块）、{!--loop tid="$tid" isshow="1" as="v"--}（如果$tid为一个栏目ID数值）<br/>
+26、修改清除静态文件按钮的颜色<br/>
+27、修改网站上传大小限制，后台设定的大小单位为MB<br/>
+28、修改上传文件功能，修改pictures表字段<br/>
+30、增强缓存文件安全性<br/>
+31、新增上传图片水印功能<br/>
+32、增强系统安全<br/>
+33、修复loop标签字符串变量传递报错问题<br/>
+34、丰富完善个人中心模块（特别感谢：舒彬琪1651978720 提供的个人中心模板）<br/>
+35、增加二级目录可执行功能<br/>
+	</blockquote>
+	
+  </div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code({'encode':true}); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>
