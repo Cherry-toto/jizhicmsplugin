@@ -75,11 +75,11 @@ class PluginsController extends Controller {
 		
 		//注册到hook里面
 		$w['module'] = 'A';
-		$w['namespace'] = 'A\\\\c';
+		$w['namespace'] = 'A';
 		$w['controller'] = 'Common';
 		$w['action'] = 'uploads';
 		$w['all_action'] = 1;
-		$w['hook_namespace'] = '\\\\A\\\\plugins';
+		$w['hook_namespace'] = 'A';
 		$w['hook_controller'] = 'Image';
 		$w['hook_action'] = 'uploads';
 		$w['plugins_name'] = 'imagethumbnail';//插件文件夹
@@ -109,7 +109,7 @@ class PluginsController extends Controller {
 		//将插件赋值到模板中
 		$this->plugins = $plugins;
 		$this->config = json_decode($plugins['config'],1);
-		
+		$this->classtypetree = get_classtype_tree();
 		$this->display($this->tpl.'plugins-body.html');
 	}
 	//获取插件内提交的数据处理
@@ -130,6 +130,9 @@ class PluginsController extends Controller {
 		$data['large_value_x'] = format_param($data['large_value_x']);
 		$data['large_value_y'] = format_param($data['large_value_y']);
 		$data['gif_open'] = format_param($data['gif_open']);
+		$data['tids_1'] = (count(format_param($data['tids_1'],2))>0)?','.implode(',',format_param($data['tids_1'],2)).',':'';
+		$data['tids_2'] = (count(format_param($data['tids_2'],2))>0)?','.implode(',',format_param($data['tids_2'],2)).',':'';
+		$data['tids_3'] = (count(format_param($data['tids_3'],2))>0)?','.implode(',',format_param($data['tids_3'],2)).',':'';
 		if($data['default_open']==1){
 			if( ($data['default_rate_x']==0 || $data['default_rate_y']==0) && ($data['default_value_x']==0 || $data['default_value_y']==0)){
 				JsonReturn(['code'=>1,'msg'=>'中等图设置失败！']);

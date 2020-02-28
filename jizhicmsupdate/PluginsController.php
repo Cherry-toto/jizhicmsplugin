@@ -7,7 +7,7 @@
 // +----------------------------------------------------------------------
 // | Author: 留恋风 <2581047041@qq.com>
 // +----------------------------------------------------------------------
-// | Date：2020/01/17
+// | Date：2020/02/16
 // +----------------------------------------------------------------------
 
 namespace A\exts;
@@ -69,24 +69,82 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检查当前版本
 		$plugin = M('plugins')->find(['filepath'=>'jizhicmsupdate']);
-		if($plugin){
-			switch($plugin['version']){
-				case '1.7':
-				//移动文件
-				$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
-				copy($dir.'/ClasstypeController.php',APP_PATH.'A/c/ClasstypeController.php');
-				M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.8','addtime'=>strtotime('2020-01-17')]);
-				 	
-				break;
+		if($this->webconf['web_version']!='1.6.5'){
+			if($plugin){
+				switch($plugin['version']){
+					case '1.8':
+					//移动文件
+					$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
+					copy($dir.'/Functions.php',APP_PATH.'FrPHP/common/Functions.php');
+					$dh =  opendir($dir.'/home');
+					while (($file= readdir($dh)) !== false){
+						if( $file!="." && $file!=".."){
+						 copy($dir."/home/".$file,APP_PATH.'Home/c/'.$file);
+					    }
+					}
+					$dh =  opendir($dir.'/admin');
+					while (($file= readdir($dh)) !== false){
+						if( $file!="." && $file!=".."){
+						 copy($dir."/admin/".$file,APP_PATH.'A/c/'.$file);
+					    }
+					}
+					$dh =  opendir($dir.'/tpl');
+					while (($file= readdir($dh)) !== false){
+						if( $file!="." && $file!=".."){
+						 copy($dir."/tpl/".$file,APP_PATH.'A/t/tpl/'.$file);
+					    }
+					}
+
+					if(defined('DB_TYPE') && DB_TYPE=='sqlite'){
+						//sqlite-mysql
+						$sqlx = "pragma table_info(".DB_PREFIX."level_group)";
+						$list = M()->findSql($sqlx);
+						$isgo = true;
+						foreach($list as $v){
+							if($v['name']=='tids'){
+								$isgo = false;
+								
+							}
+						}
+						$sql = '';
+						if($isgo){
+							//新增字段
+						$sql = "ALTER TABLE ".DB_PREFIX."level_group ADD tids TEXT  DEFAULT NULL ;";
+					
+						}
+						$sqlx = "pragma table_info(".DB_PREFIX."fields)";
+						$list = M()->findSql($sqlx);
+					}else{
+						$sql = 'SHOW COLUMNS FROM '.DB_PREFIX.'level_group ';
+						$list = M()->findSql($sql);
+						$isgo = true;
+						foreach($list as $v){
+							if($v['Field']=='tids'){
+								$isgo = false;
+							}
+						}
+						if($isgo){
+							$sql = "ALTER TABLE ".DB_PREFIX."level_group ADD tids TEXT default NULL ";
+							M()->runSql($sql);
+						}
+					}
+
+					M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
+					 	
+					break;
+				}
+			}else{
+					//移动文件
+					$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
+					copy($dir.'/ClasstypeController.php',APP_PATH.'A/c/ClasstypeController.php');
+					M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
+					 	
+					
 			}
 		}else{
-				//移动文件
-				$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
-				copy($dir.'/ClasstypeController.php',APP_PATH.'A/c/ClasstypeController.php');
-				M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.8','addtime'=>strtotime('2020-01-17')]);
-				 	
-				
+			M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
 		}
+		
 	
 		return true;
 		

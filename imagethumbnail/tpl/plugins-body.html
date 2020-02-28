@@ -12,124 +12,228 @@
 	<blockquote class="layui-elem-quote">生成多种尺寸的缩略图，如果设置了固定尺寸，则不按照比例处理图片</blockquote>
 	<input name="id" value="{$plugins['id']}" type="hidden">
 	
-	<fieldset class="layui-elem-field">
-	  <legend>中等图 - 默认调用</legend>
-	  <div class="layui-field-box">
-		<div class="layui-form-item">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+              <ul class="layui-tab-title">
+                <li class="layui-this">中等图</li>
+                <li>小图</li>
+                <li>大图</li>
+                <li>其他</li>
+              </ul>
+             
+              <div class="layui-tab-content" >
+			    <div class="layui-tab-item layui-show">
+				<div class="layui-form-item">
+				   <div class="layui-inline">
+					<label class="layui-form-label">尺寸比例</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="default_rate_x" placeholder="宽" value="{$config['default_rate_x']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="default_rate_y" placeholder="高"  value="{$config['default_rate_y']}"  autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-inline">
+					<label class="layui-form-label">固定尺寸</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="default_value_x" placeholder="宽"  value="{$config['default_value_x']}"  autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="default_value_y" placeholder="高" value="{$config['default_value_y']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+				  </div>
+				  <div class="layui-form-item" pane>
+					<label class="layui-form-label">开关</label>
+					<div class="layui-input-block">
+						<input type="radio" name="default_open" value="0" title="关" {if(isset($config['default_open']) && $config['default_open']==0)}checked{/if}>
+						<input type="radio" name="default_open" value="1" title="开" {if(!isset($config['default_open']) || $config['default_open']==1)}checked{/if}>
+					</div>
+				  </div>
+				  
+				  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        使用栏目
+                    </label>
+                    <table  class="layui-table layui-input-block">
+                        <tbody>
+
+						{foreach $classtypetree as $v}
+						{if($v['pid']==0)}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="tids_1[]" lay-skin="primary" value="{$v['id']}" title="{$v['classname']}" {if(strpos($config['tids_1'],','.$v['id'].',')!==false)}checked{/if} >
+                                </td>
+                                <td>
+                                    <div class="layui-input-block">
+                                    {php $children = get_children($v,$classtypetree,5);/}
+                                    {foreach $children as $vv}
+                                        <input name="tids_1[]" lay-skin="primary" type="checkbox" title="{$vv['classname']}" value="{$vv['id']}" {if(strpos($config['tids_1'],','.$vv['id'].',')!==false)}checked{/if}> 
+                                    {/foreach}
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        {/if}
+						{/foreach}
+                           
+                        </tbody>
+                    </table>
+                  </div>
+				  
+				
+				</div>
+				</div>
+				
+				
+				<div class="layui-tab-item">
+				<div class="layui-form-item">
+					<div class="layui-inline">
+					<label class="layui-form-label">尺寸比例</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="small_rate_x" placeholder="宽" value="{$config['small_rate_x']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="small_rate_y" placeholder="高" value="{$config['small_rate_y']}" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-inline">
+					<label class="layui-form-label">固定尺寸</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="small_value_x" placeholder="宽" value="{$config['small_value_x']}"  autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="small_value_y" placeholder="高"  value="{$config['small_value_y']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+				  </div>
+				  <div class="layui-form-item" pane>
+					<label class="layui-form-label">开关</label>
+					<div class="layui-input-block">
+						<input type="radio" name="small_open" value="0" title="关" {if(isset($config['small_open']) && $config['small_open']==0)}checked{/if}>
+						<input type="radio" name="small_open" value="1" title="开" {if(!isset($config['small_open']) || $config['small_open']==1)}checked{/if}>
+					</div>
+				  </div>
+				  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        使用栏目
+                    </label>
+                    <table  class="layui-table layui-input-block">
+                        <tbody>
+
+						{foreach $classtypetree as $v}
+						{if($v['pid']==0)}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="tids_2[]" lay-skin="primary" value="{$v['id']}" title="{$v['classname']}" {if(strpos($config['tids_2'],','.$v['id'].',')!==false)}checked{/if} >
+                                </td>
+                                <td>
+                                    <div class="layui-input-block">
+                                    {php $children = get_children($v,$classtypetree,5);/}
+                                    {foreach $children as $vv}
+                                        <input name="tids_2[]" lay-skin="primary" type="checkbox" title="{$vv['classname']}" value="{$vv['id']}" {if(strpos($config['tids_2'],','.$vv['id'].',')!==false)}checked{/if}> 
+                                    {/foreach}
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        {/if}
+						{/foreach}
+                           
+                        </tbody>
+                    </table>
+                  </div>
+				  
+				  
+				</div>
+				</div>
+				
+				
+				<div class="layui-tab-item">
+				<div class="layui-form-item">
+				 <div class="layui-inline">
+					<label class="layui-form-label">尺寸比例</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="large_rate_x" placeholder="宽" value="{$config['large_rate_x']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">:</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="large_rate_y" placeholder="高" value="{$config['large_rate_y']}" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+				  <div class="layui-inline">
+					<label class="layui-form-label">固定尺寸</label>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="large_value_x" placeholder="宽" value="{$config['large_value_x']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+					<div class="layui-input-inline" style="width: 100px;">
+					  <input type="number" name="large_value_y" placeholder="高" value="{$config['large_value_y']}" autocomplete="off" class="layui-input">
+					</div>
+					<div class="layui-form-mid">px</div>
+				  </div>
+				  <div class="layui-form-item" pane>
+					<label class="layui-form-label">开关</label>
+					<div class="layui-input-block">
+						<input type="radio" name="large_open" value="0" title="关"  {if(isset($config['large_open']) && $config['large_open']==0)}checked{/if}>
+						<input type="radio" name="large_open" value="1" title="开" {if(!isset($config['large_open']) || $config['large_open']==1)}checked{/if}>
+					</div>
+				  </div>
+				  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">
+                        使用栏目
+                    </label>
+                    <table  class="layui-table layui-input-block">
+                        <tbody>
+
+						{foreach $classtypetree as $v}
+						{if($v['pid']==0)}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="tids_3[]" lay-skin="primary" value="{$v['id']}" title="{$v['classname']}" {if(strpos($config['tids_3'],','.$v['id'].',')!==false)}checked{/if} >
+                                </td>
+                                <td>
+                                    <div class="layui-input-block">
+                                    {php $children = get_children($v,$classtypetree,5);/}
+                                    {foreach $children as $vv}
+                                        <input name="tids_3[]" lay-skin="primary" type="checkbox" title="{$vv['classname']}" value="{$vv['id']}" {if(strpos($config['tids_3'],','.$vv['id'].',')!==false)}checked{/if}> 
+                                    {/foreach}
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        {/if}
+						{/foreach}
+                           
+                        </tbody>
+                    </table>
+                  </div>
+				  
+				  
+				  
+				</div>
+				</div>
+				
+				<div class="layui-tab-item">
+				<div class="layui-form-item">
+				<div class="layui-form-item" pane>
+					<label class="layui-form-label" style="width:140px">是否处理gif图片</label>
+					<div class="layui-input-inline" style="margin-left:140px">
+						<input type="radio" name="gif_open" value="0" title="关" {if(isset($config['gif_open']) && $config['gif_open']==0)}checked{/if}>
+						<input type="radio" name="gif_open" value="1" title="开" {if(!isset($config['gif_open']) || $config['gif_open']==1)}checked{/if}>
+					</div>
+					<div class="layui-form-mid layui-word-aux">gif图片被截取后是无法呈现动态的</div>
+				 </div>
+				</div>
+				</div>
+				
+				
+			  </div>
+
 	 
-		  <div class="layui-inline">
-			<label class="layui-form-label">尺寸比例</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="default_rate_x" placeholder="宽" value="{$config['default_rate_x']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">:</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="default_rate_y" placeholder="高"  value="{$config['default_rate_y']}"  autocomplete="off" class="layui-input">
-			</div>
-		  </div>
-		  <div class="layui-inline">
-			<label class="layui-form-label">固定尺寸</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="default_value_x" placeholder="宽"  value="{$config['default_value_x']}"  autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="default_value_y" placeholder="高" value="{$config['default_value_y']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-		  </div>
-		  <div class="layui-form-item" pane>
-			<label class="layui-form-label">开关</label>
-			<div class="layui-input-block">
-				<input type="radio" name="default_open" value="0" title="关" {if(isset($config['default_open']) && $config['default_open']==0)}checked{/if}>
-				<input type="radio" name="default_open" value="1" title="开" {if(!isset($config['default_open']) || $config['default_open']==1)}checked{/if}>
-			</div>
-		  </div>
-		  
-		</div>
-	  </div>
-	</fieldset>
-    <fieldset class="layui-elem-field">
-	  <legend>小图</legend>
-	  <div class="layui-field-box">
-		<div class="layui-form-item">
-	 
-		  <div class="layui-inline">
-			<label class="layui-form-label">尺寸比例</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="small_rate_x" placeholder="宽" value="{$config['small_rate_x']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">:</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="small_rate_y" placeholder="高" value="{$config['small_rate_y']}" autocomplete="off" class="layui-input">
-			</div>
-		  </div>
-		  <div class="layui-inline">
-			<label class="layui-form-label">固定尺寸</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="small_value_x" placeholder="宽" value="{$config['small_value_x']}"  autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="small_value_y" placeholder="高"  value="{$config['small_value_y']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-		  </div>
-		  <div class="layui-form-item" pane>
-			<label class="layui-form-label">开关</label>
-			<div class="layui-input-block">
-				<input type="radio" name="small_open" value="0" title="关" {if(isset($config['small_open']) && $config['small_open']==0)}checked{/if}>
-				<input type="radio" name="small_open" value="1" title="开" {if(!isset($config['small_open']) || $config['small_open']==1)}checked{/if}>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</fieldset>
-	
-	<fieldset class="layui-elem-field">
-	  <legend>大图</legend>
-	  <div class="layui-field-box">
-		<div class="layui-form-item">
-	 
-		  <div class="layui-inline">
-			<label class="layui-form-label">尺寸比例</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="large_rate_x" placeholder="宽" value="{$config['large_rate_x']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">:</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="large_rate_y" placeholder="高" value="{$config['large_rate_y']}" autocomplete="off" class="layui-input">
-			</div>
-		  </div>
-		  <div class="layui-inline">
-			<label class="layui-form-label">固定尺寸</label>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="large_value_x" placeholder="宽" value="{$config['large_value_x']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-			<div class="layui-input-inline" style="width: 100px;">
-			  <input type="number" name="large_value_y" placeholder="高" value="{$config['large_value_y']}" autocomplete="off" class="layui-input">
-			</div>
-			<div class="layui-form-mid">px</div>
-		  </div>
-		  <div class="layui-form-item" pane>
-			<label class="layui-form-label">开关</label>
-			<div class="layui-input-block">
-				<input type="radio" name="large_open" value="0" title="关"  {if(isset($config['large_open']) && $config['large_open']==0)}checked{/if}>
-				<input type="radio" name="large_open" value="1" title="开" {if(!isset($config['large_open']) || $config['large_open']==1)}checked{/if}>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	</fieldset>	
-	 <div class="layui-form-item" pane>
-		<label class="layui-form-label" style="width:140px">是否处理gif图片</label>
-		<div class="layui-input-inline" style="margin-left:140px">
-			<input type="radio" name="gif_open" value="0" title="关" {if(isset($config['gif_open']) && $config['gif_open']==0)}checked{/if}>
-			<input type="radio" name="gif_open" value="1" title="开" {if(!isset($config['gif_open']) || $config['gif_open']==1)}checked{/if}>
-		</div>
-		<div class="layui-form-mid layui-word-aux">gif图片被截取后是无法呈现动态的</div>
-	 </div>
 	 
   <div class="layui-form-item">
     <div class="layui-input-block">

@@ -128,125 +128,191 @@ class ImageController extends Controller
 							$im = imagecreatefromwbmp($filename); 
 						}
 						
+						$tid = $this->frparam('tid',0,0);
+
 						//小图
 						if($config['small_open']==1){
-							$pic_small = $file_name.'_s.'.$pix;
-							if(!$config['small_value_x'] || !$config['small_value_y']){
-								//按照尺寸
-								if($w<$h){
-									$new_img_small_width = $h * $config['small_rate_x'] / $config['small_rate_y'];
-									$new_img_small_height = $h; 
-									//x:y = w:h
-								}else{
-									$new_img_small_height = $w * $config['small_rate_y'] / $config['small_rate_x'];
-									$new_img_small_width = $w;
+							
+							$tids = $config['tids_1'];
+							foreach ($this->classtypetree as $k => $v) {
+								if($v['pid']==0){
+									if(strpos($config['tids_1'],','.$v['id'].',')!==false){
+										$children = get_children($v,$this->classtypetree,5);
+										foreach($children as $vv){
+											if(strpos($config['tids_1'],','.$vv['id'].',')===false){
+												$tids .= ','.$vv['id'].',';
+											}
+										}
+									}
 								}
 								
-								$small_w = $new_img_small_width>$w ? $w : $new_img_small_width;
-								$small_h = $new_img_small_height>$h ? $h : $new_img_small_height;
-							}else{
-								$new_img_small_width = $config['small_value_x'];
-								$new_img_small_height = $config['small_value_y'];
-								$small_w = $w;
-								$small_h = $h;
 							}
 							
 							
+							if(strpos($tids,','.$tid.',')!==false){
+								$pic_small = $file_name.'_s.'.$pix;
+								if(!$config['small_value_x'] || !$config['small_value_y']){
+									//按照尺寸
+									if($w<$h){
+										$new_img_small_width = $h * $config['small_rate_x'] / $config['small_rate_y'];
+										$new_img_small_height = $h; 
+										//x:y = w:h
+									}else{
+										$new_img_small_height = $w * $config['small_rate_y'] / $config['small_rate_x'];
+										$new_img_small_width = $w;
+									}
+									
+									$small_w = $new_img_small_width>$w ? $w : $new_img_small_width;
+									$small_h = $new_img_small_height>$h ? $h : $new_img_small_height;
+								}else{
+									$new_img_small_width = $config['small_value_x'];
+									$new_img_small_height = $config['small_value_y'];
+									$small_w = $w;
+									$small_h = $h;
+								}
+								
+								
+								
+								$newim_small = imagecreatetruecolor($new_img_small_width, $new_img_small_height); 
+								imagecopyresampled($newim_small, $im, 0, 0, 0, 0, $new_img_small_width, $new_img_small_height, $small_w, $small_h); 
+								if(strtolower($pix)=='png'){
+									imagepng($newim_small,$pic_small); 
+								}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
+									imagejpeg($newim_small,$pic_small); 
+								}else if(strtolower($pix)=='gif'){
+									imagegif($newim_small,$pic_small); 
+								}else{
+									imagewbmp($newim_small,$pic_small); 
+								}
+								imagedestroy($newim_small); 
+								$data['url'] = $pic_small;
+								$data['code'] = 0;
+								$filesize = round(filesize(APP_PATH.$pic_small)/1024,2);
+								M('pictures')->add(['litpic'=>'/'.$pic_small,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize,'filetype'=>strtolower($pix),'tid'=>$this->frparam('tid',0,0),'molds'=>$this->frparam('molds',1,null)]);
 							
-							$newim_small = imagecreatetruecolor($new_img_small_width, $new_img_small_height); 
-							imagecopyresampled($newim_small, $im, 0, 0, 0, 0, $new_img_small_width, $new_img_small_height, $small_w, $small_h); 
-							if(strtolower($pix)=='png'){
-								imagepng($newim_small,$pic_small); 
-							}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
-								imagejpeg($newim_small,$pic_small); 
-							}else if(strtolower($pix)=='gif'){
-								imagegif($newim_small,$pic_small); 
-							}else{
-								imagewbmp($newim_small,$pic_small); 
 							}
-							imagedestroy($newim_small); 
-							$data['url'] = $pic_small;
-							$data['code'] = 0;
-							$filesize = round(filesize(APP_PATH.$pic_small)/1024,2);
-							M('pictures')->add(['litpic'=>'/'.$pic_small,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize]);
+							
 						}
 						
 						
 						//中图-数据库存储
 						if($config['default_open']==1){
-							$pic_thumbnail = $filename;
-							if(!$config['default_value_x'] || !$config['default_value_y']){
-								//按照尺寸
-								if($w<$h){
-									$new_img_thumbnail_width = $h * $config['default_rate_x'] / $config['default_rate_y'];
-									$new_img_thumbnail_height = $h; 
-									//x:y = w:h
-								}else{
-									$new_img_thumbnail_height = $w * $config['default_rate_y'] / $config['default_rate_x'];
-									$new_img_thumbnail_width = $w;
-								}
-								$thumbnail_w = $new_img_thumbnail_width>$w ? $w : $new_img_thumbnail_width;
-							    $thumbnail_h = $new_img_thumbnail_height>$h ? $h : $new_img_thumbnail_height;
-							}else{
-								$new_img_thumbnail_width = $config['default_value_x'];
-								$new_img_thumbnail_height = $config['default_value_y'];
-								$thumbnail_w = $w;
-								$thumbnail_h = $h;
-							}
-						
 							
-							$newim_thumbnail = imagecreatetruecolor($new_img_thumbnail_width, $new_img_thumbnail_height); 
-							imagecopyresampled($newim_thumbnail, $im, 0, 0, 0, 0, $new_img_thumbnail_width, $new_img_thumbnail_height, $thumbnail_w, $thumbnail_h); 
-							if(strtolower($pix)=='png'){
-								imagepng($newim_thumbnail,$pic_thumbnail); 
-							}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
-								imagejpeg($newim_thumbnail,$pic_thumbnail); 
-							}else if(strtolower($pix)=='gif'){
-								imagegif($newim_thumbnail,$pic_thumbnail); 
-							}else{
-								imagewbmp($newim_thumbnail,$pic_thumbnail); 
+							$tids = $config['tids_2'];
+							foreach ($this->classtypetree as $k => $v) {
+								if($v['pid']==0){
+									if(strpos($config['tids_2'],','.$v['id'].',')!==false){
+										$children = get_children($v,$this->classtypetree,5);
+										foreach($children as $vv){
+											if(strpos($config['tids_2'],','.$vv['id'].',')===false){
+												$tids .= ','.$vv['id'].',';
+											}
+										}
+									}
+								}
+								
 							}
-							imagedestroy($newim_thumbnail);
+							
+							
+							if(strpos($tids,','.$tid.',')!==false){
+							
+								$pic_thumbnail = $filename;
+								if(!$config['default_value_x'] || !$config['default_value_y']){
+									//按照尺寸
+									if($w<$h){
+										$new_img_thumbnail_width = $h * $config['default_rate_x'] / $config['default_rate_y'];
+										$new_img_thumbnail_height = $h; 
+										//x:y = w:h
+									}else{
+										$new_img_thumbnail_height = $w * $config['default_rate_y'] / $config['default_rate_x'];
+										$new_img_thumbnail_width = $w;
+									}
+									$thumbnail_w = $new_img_thumbnail_width>$w ? $w : $new_img_thumbnail_width;
+									$thumbnail_h = $new_img_thumbnail_height>$h ? $h : $new_img_thumbnail_height;
+								}else{
+									$new_img_thumbnail_width = $config['default_value_x'];
+									$new_img_thumbnail_height = $config['default_value_y'];
+									$thumbnail_w = $w;
+									$thumbnail_h = $h;
+								}
+							
+								
+								$newim_thumbnail = imagecreatetruecolor($new_img_thumbnail_width, $new_img_thumbnail_height); 
+								imagecopyresampled($newim_thumbnail, $im, 0, 0, 0, 0, $new_img_thumbnail_width, $new_img_thumbnail_height, $thumbnail_w, $thumbnail_h); 
+								if(strtolower($pix)=='png'){
+									imagepng($newim_thumbnail,$pic_thumbnail); 
+								}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
+									imagejpeg($newim_thumbnail,$pic_thumbnail); 
+								}else if(strtolower($pix)=='gif'){
+									imagegif($newim_thumbnail,$pic_thumbnail); 
+								}else{
+									imagewbmp($newim_thumbnail,$pic_thumbnail); 
+								}
+								imagedestroy($newim_thumbnail);
+							
+							}
 						}
 						//大图
 						if($config['large_open']==1){
-							$pic_large = $file_name.'_l.'.$pix;
-							if(!$config['large_value_x'] || !$config['large_value_y']){
-								//按照尺寸
-								if($w<$h){
-									$new_img_large_width = $h * $config['large_rate_x'] / $config['large_rate_y'];
-									$new_img_large_height = $h; 
-									//x:y = w:h
-								}else{
-									$new_img_large_height = $w * $config['large_rate_y'] / $config['large_rate_x'];
-									$new_img_large_width = $w;
+							
+							$tids = $config['tids_3'];
+							foreach ($this->classtypetree as $k => $v) {
+								if($v['pid']==0){
+									if(strpos($config['tids_3'],','.$v['id'].',')!==false){
+										$children = get_children($v,$this->classtypetree,5);
+										foreach($children as $vv){
+											if(strpos($config['tids_3'],','.$vv['id'].',')===false){
+												$tids .= ','.$vv['id'].',';
+											}
+										}
+									}
 								}
-								$large_w = $new_img_large_width>$w ? $w : $new_img_large_width;
-								$large_h = $new_img_large_height>$h ? $h : $new_img_large_height;
-							}else{
-								$new_img_large_width = $config['large_value_x'];
-								$new_img_large_height = $config['large_value_y'];
-								$large_w = $w;
-								$large_h = $h;
+								
 							}
 							
 							
-							$newim_large = imagecreatetruecolor($new_img_large_width, $new_img_large_height); 
-							imagecopyresampled($newim_large, $im, 0, 0, 0, 0, $new_img_large_width, $new_img_large_height, $large_w, $large_h); 
-							if(strtolower($pix)=='png'){
-								imagepng($newim_large,$pic_large); 
-							}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
-								imagejpeg($newim_large,$pic_large); 
-							}else if(strtolower($pix)=='gif'){
-								imagegif($newim_large,$pic_large);
-							}else{
-								imagewbmp($newim_large,$pic_large);
+							if(strpos($tids,','.$tid.',')!==false){
+							
+								$pic_large = $file_name.'_l.'.$pix;
+								if(!$config['large_value_x'] || !$config['large_value_y']){
+									//按照尺寸
+									if($w<$h){
+										$new_img_large_width = $h * $config['large_rate_x'] / $config['large_rate_y'];
+										$new_img_large_height = $h; 
+										//x:y = w:h
+									}else{
+										$new_img_large_height = $w * $config['large_rate_y'] / $config['large_rate_x'];
+										$new_img_large_width = $w;
+									}
+									$large_w = $new_img_large_width>$w ? $w : $new_img_large_width;
+									$large_h = $new_img_large_height>$h ? $h : $new_img_large_height;
+								}else{
+									$new_img_large_width = $config['large_value_x'];
+									$new_img_large_height = $config['large_value_y'];
+									$large_w = $w;
+									$large_h = $h;
+								}
+								
+								
+								$newim_large = imagecreatetruecolor($new_img_large_width, $new_img_large_height); 
+								imagecopyresampled($newim_large, $im, 0, 0, 0, 0, $new_img_large_width, $new_img_large_height, $large_w, $large_h); 
+								if(strtolower($pix)=='png'){
+									imagepng($newim_large,$pic_large); 
+								}else if(strtolower($pix)=='jpg' || strtolower($pix)=='jpeg' ){
+									imagejpeg($newim_large,$pic_large); 
+								}else if(strtolower($pix)=='gif'){
+									imagegif($newim_large,$pic_large);
+								}else{
+									imagewbmp($newim_large,$pic_large);
+								}
+								imagedestroy($newim_large); 
+								$data['url'] = $pic_large;
+								$data['code'] = 0;
+								$filesize = round(filesize(APP_PATH.$pic_large)/1024,2);
+								
+								M('pictures')->add(['litpic'=>'/'.$pic_large,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize,'filetype'=>strtolower($pix),'tid'=>$this->frparam('tid',0,0),'molds'=>$this->frparam('molds',1,null)]);
+							
 							}
-							imagedestroy($newim_large); 
-							$data['url'] = $pic_large;
-							$data['code'] = 0;
-							$filesize = round(filesize(APP_PATH.$pic_large)/1024,2);
-							M('pictures')->add(['litpic'=>'/'.$pic_large,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize]);
 							
 						}
 					
@@ -261,8 +327,9 @@ class ImageController extends Controller
 				
 				$data['url'] = $filename;
 				$data['code'] = 0;
+				
 				$filesize = round(filesize(APP_PATH.$filename)/1024,2);
-				M('pictures')->add(['litpic'=>'/'.$filename,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize]);
+				M('pictures')->add(['litpic'=>'/'.$filename,'addtime'=>time(),'userid'=>$_SESSION['admin']['id'],'size'=>$filesize,'filetype'=>strtolower($pix),'tid'=>$this->frparam('tid',0,0),'molds'=>$this->frparam('molds',1,null)]);
 				
 				
 			}else{
