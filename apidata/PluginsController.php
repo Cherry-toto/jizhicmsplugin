@@ -67,11 +67,8 @@ class PluginsController extends Controller {
 	//执行SQL语句在此处处理,或者移动文件也可以在此处理
 	public  function install(){
 		//下面是新增test表的SQL操作
-		//检测是否已安装前台插件
 		$filepath = APP_PATH.'Home/plugins/GetDataController.php';
-		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'前台Home下面已存在相应的GetData控制器！'));
-		}
+		
 		
 		return true;
 		

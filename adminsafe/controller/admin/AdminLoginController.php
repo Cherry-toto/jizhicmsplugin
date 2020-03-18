@@ -25,7 +25,7 @@ class AdminLoginController extends Controller
 		$config = M('plugins')->getField(['filepath'=>'adminsafe'],'config');
 		$adminsafe = json_decode($config,1);
 		//检测是否存在adminsafe安全秘钥
-		if(!isset($_SESSION['adminsafe'])){
+		if(!isset($_SESSION['adminsafe']) && !isset($adminsafe['password'])){
 			$exp = substr(REQUEST_URI,strlen(APP_URL));
 			//获取链接是否存在安全秘钥
 			if($exp=='?'.$adminsafe['password']){
@@ -38,7 +38,8 @@ class AdminLoginController extends Controller
 			
 			
 		}else{
-			if($adminsafe['password']!=$_SESSION['adminsafe'] && $adminsafe['password']!=''){
+			
+			if(isset($adminsafe['password']) && isset($adminsafe['adminsafe']) && $adminsafe['password']!=$_SESSION['adminsafe'] && $adminsafe['password']!=''){
 				echo '<h1>'.$adminsafe['msg'].'</h1>';
 				exit;
 			}

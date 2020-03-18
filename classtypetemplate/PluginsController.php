@@ -69,9 +69,7 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检测是否已安装前台插件
 		$filepath = APP_PATH.'Admin/plugins/ClasstypeTemplateController.php';
-		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'后台Admin/plugins下面已存在相应的AdminLogin控制器！'));
-		}
+		
 		//移动后台文件
 		$dir = APP_PATH.'A/t/tpl';
 		copy($dir."/classtype-add.html",APP_PATH.'A/exts/classtypetemplate/back/classtype-add.html');
@@ -80,6 +78,9 @@ class PluginsController extends Controller {
 		copy($dir."/classtype-add.html",APP_PATH.'A/t/tpl/classtype-add.html');
 		copy($dir."/classtype-edit.html",APP_PATH.'A/t/tpl/classtype-edit.html');
 		
+		if(M('plugins')->find(['filepath'=>'classtypetemplate'])){
+			M('plugins')->update(['filepath'=>'classtypetemplate'],['version'=>1.1]);
+		}
 		
 
 		return true;

@@ -133,13 +133,13 @@ class ImageController extends Controller
 						//小图
 						if($config['small_open']==1){
 							
-							$tids = $config['tids_1'];
+							$tids = $config['tids_2'];
 							foreach ($this->classtypetree as $k => $v) {
 								if($v['pid']==0){
-									if(strpos($config['tids_1'],','.$v['id'].',')!==false){
+									if(strpos($config['tids_2'],','.$v['id'].',')!==false){
 										$children = get_children($v,$this->classtypetree,5);
 										foreach($children as $vv){
-											if(strpos($config['tids_1'],','.$vv['id'].',')===false){
+											if(strpos($config['tids_2'],','.$vv['id'].',')===false){
 												$tids .= ','.$vv['id'].',';
 											}
 										}
@@ -198,13 +198,13 @@ class ImageController extends Controller
 						//中图-数据库存储
 						if($config['default_open']==1){
 							
-							$tids = $config['tids_2'];
+							$tids = $config['tids_1'];
 							foreach ($this->classtypetree as $k => $v) {
 								if($v['pid']==0){
-									if(strpos($config['tids_2'],','.$v['id'].',')!==false){
+									if(strpos($config['tids_1'],','.$v['id'].',')!==false){
 										$children = get_children($v,$this->classtypetree,5);
 										foreach($children as $vv){
-											if(strpos($config['tids_2'],','.$vv['id'].',')===false){
+											if(strpos($config['tids_1'],','.$vv['id'].',')===false){
 												$tids .= ','.$vv['id'].',';
 											}
 										}

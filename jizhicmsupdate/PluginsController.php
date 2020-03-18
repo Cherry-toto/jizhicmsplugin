@@ -67,84 +67,73 @@ class PluginsController extends Controller {
 	//执行SQL语句在此处处理,或者移动文件也可以在此处理
 	public  function install(){
 		//下面是新增test表的SQL操作
-		//检查当前版本
-		$plugin = M('plugins')->find(['filepath'=>'jizhicmsupdate']);
-		if($this->webconf['web_version']!='1.6.5'){
-			if($plugin){
-				switch($plugin['version']){
-					case '1.8':
-					//移动文件
-					$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
-					copy($dir.'/Functions.php',APP_PATH.'FrPHP/common/Functions.php');
-					$dh =  opendir($dir.'/home');
-					while (($file= readdir($dh)) !== false){
-						if( $file!="." && $file!=".."){
-						 copy($dir."/home/".$file,APP_PATH.'Home/c/'.$file);
-					    }
-					}
-					$dh =  opendir($dir.'/admin');
-					while (($file= readdir($dh)) !== false){
-						if( $file!="." && $file!=".."){
-						 copy($dir."/admin/".$file,APP_PATH.'A/c/'.$file);
-					    }
-					}
-					$dh =  opendir($dir.'/tpl');
-					while (($file= readdir($dh)) !== false){
-						if( $file!="." && $file!=".."){
-						 copy($dir."/tpl/".$file,APP_PATH.'A/t/tpl/'.$file);
-					    }
-					}
+		//检测版本号
+		if(!version_compare($this->webconf['web_version'],'1.6.6','==')){
+			JsonReturn(['code'=>1,'msg'=>'您的软件系统版本为'.$this->webconf['web_version'].'，该插件仅支持1.6.6版本修复！']);
+		}
 
-					if(defined('DB_TYPE') && DB_TYPE=='sqlite'){
-						//sqlite-mysql
-						$sqlx = "pragma table_info(".DB_PREFIX."level_group)";
-						$list = M()->findSql($sqlx);
-						$isgo = true;
-						foreach($list as $v){
-							if($v['name']=='tids'){
-								$isgo = false;
-								
-							}
-						}
-						$sql = '';
-						if($isgo){
-							//新增字段
-						$sql = "ALTER TABLE ".DB_PREFIX."level_group ADD tids TEXT  DEFAULT NULL ;";
-					
-						}
-						$sqlx = "pragma table_info(".DB_PREFIX."fields)";
-						$list = M()->findSql($sqlx);
-					}else{
-						$sql = 'SHOW COLUMNS FROM '.DB_PREFIX.'level_group ';
-						$list = M()->findSql($sql);
-						$isgo = true;
-						foreach($list as $v){
-							if($v['Field']=='tids'){
-								$isgo = false;
-							}
-						}
-						if($isgo){
-							$sql = "ALTER TABLE ".DB_PREFIX."level_group ADD tids TEXT default NULL ";
-							M()->runSql($sql);
-						}
-					}
+		
+		//公共文件安装
+		$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
 
-					M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
-					 	
-					break;
-				}
-			}else{
-					//移动文件
-					$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
-					copy($dir.'/ClasstypeController.php',APP_PATH.'A/c/ClasstypeController.php');
-					M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
-					 	
-					
+		copy($dir."/PluginsController.php",APP_PATH.'A/c/PluginsController.php');
+
+		//检查文件名是否存在
+		if(file_exists(APP_PATH.'install')){
+			copy($dir."/db.php",APP_PATH.'install/db.php');
+			copy($dir."/test.php",APP_PATH.'install/test.php');
+		}
+		if(defined('DB_TYPE') && DB_TYPE=='sqlite'){
+			if(file_exists(APP_PATH.'install')){
+				copy($dir."/db.db",APP_PATH.'install/db.db');
+				copy($dir."/test.db",APP_PATH.'install/test.db');
 			}
+			//新增字段
+			$sqlx = "pragma table_info(".DB_PREFIX."buylog)";
+			$list = M()->findSql($sqlx);
+			$isgo = true;
+			foreach($list as $v){
+				if($v['name']=='aid'){
+					$isgo = false;
+					
+				}
+			}
+			$sql = '';
+			if($isgo){
+				//新增字段
+				$sql = "ALTER TABLE ".DB_PREFIX."buylog ADD aid INT(11)  DEFAULT '0' ;";
+				M()->runSql($sql);
+			}
+			
+			
+			
 		}else{
-			M('plugins')->update(['id'=>$plugin['id']],['version'=>'1.9','addtime'=>strtotime('2020-02-16')]);
+			
+			$sql = 'SHOW COLUMNS FROM '.DB_PREFIX.'buylog ';
+			$list = M()->findSql($sql);
+			$isgo = true;
+		
+			foreach($list as $v){
+				if($v['Field']=='aid'){
+					$isgo = false;
+					
+				}
+				
+			}
+			if($isgo){
+				$sql = "ALTER TABLE ".DB_PREFIX."buylog ADD aid INT(11)  DEFAULT '0' ";
+				M()->runSql($sql);
+			}
+			
 		}
 		
+	
+		$plugin = M('plugins')->find(['filepath'=>'jizhicmsupdate']);
+		if($plugin){
+			M('plugins')->update(['id'=>$plugin['id']],['version'=>'2.3','addtime'=>strtotime('2020-03-12')]);
+		}
+		
+
 	
 		return true;
 		

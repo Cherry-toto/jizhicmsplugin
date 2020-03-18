@@ -18,8 +18,7 @@ use FrPHP\Extend\Page;
 class ClasstypeNavController extends CommonController
 {
 	
-	
-	function addclass(){
+		function addclass(){
 		$this->fields_biaoshi = 'classtype';
 		
 		if($this->frparam('go')==1){
@@ -65,8 +64,18 @@ class ClasstypeNavController extends CommonController
 			$w = array_merge($data,$w);
 			$a = M('classtype')->add($w);
 			if($a){
+				$fields=M('fields')->findAll(' tids like "%,'.$w['pid'].',%" ',null,'id,tids');
+				foreach ($fields as $v){
+					if($v['tids']!=0 && $v['tids']!=''){
+						M('fields')->update(array('id'=>$v['id']),array('tids'=>$v['tids'].$a.','));
+					}else{
+						M('fields')->update(array('id'=>$v['id']),array('tids'=>','.$a.','));
+					}
+					
+				}
 				$w['id'] = $a;
 				$this->addNav($w);
+				//这里
 				setCache('classtypetree',null);
 				setCache('classtype',null);
 				setCache('mobileclasstype',null);
@@ -82,13 +91,12 @@ class ClasstypeNavController extends CommonController
 		$this->biaoshi = $this->frparam('biaoshi',1);
 		//$classtype = M('classtype')->findAll(null,'orders desc');
 		//$classtype = getTree($classtype);
-		$this->classtypes = $this->classtypetree;;
+		$this->classtypes = $this->classtypetree;
 			//var_dump($this->classtypes);
 		$this->display('classtype-add');
-		exit;
 		
 	}
-	function editclass(){
+		function editclass(){
 		$this->data = M('classtype')->find(array('id'=>$this->frparam('id')));
 		$this->fields_biaoshi = 'classtype';
 		if($this->frparam('go')==1){
@@ -134,6 +142,47 @@ class ClasstypeNavController extends CommonController
 				//批量修改栏目对应的模块内容htmlurl
 				if($this->data['htmlurl']!=$data['htmlurl']){
 					M($data['molds'])->update(array('tid'=>$data['id']),array('htmlurl'=>$data['htmlurl']));
+			
+				}
+				//批量修改栏目url
+				if($this->webconf['islevelurl']==1){
+					if( ($this->data['htmlurl']!=$data['htmlurl']) || ($this->data['pid']!=$w['pid'])){
+						
+						//层级
+						$classtypetree = classTypeData();
+						$children = get_children($classtypetree[$w['id']],$classtypetree,5);
+						//计算当前url
+						//以前的url替换成当前的url
+						$old_htmlurl = $this->data['htmlurl'];
+						if(strpos($w['htmlurl'],'/')!==false){
+							//获取最后一个
+							$htl = explode('/',$w['htmlurl']);
+							$htl_new = end($htl);//最后一个名字
+							
+						}else{
+							$htl_new = $w['htmlurl'];
+						}
+						
+						if($w['pid']!=0){
+							$p_html = $classtypetree[$w['pid']]['htmlurl'];
+							$new_htmlurl = $p_html.'/'.$htl_new;
+						}else{
+							$new_htmlurl = $htl_new;
+						}
+						//更新栏目及其内容HTML
+						M('classtype')->update(['id'=>$data['id']],['htmlurl'=>$new_htmlurl]);
+						M($data['molds'])->update(array('tid'=>$data['id']),array('htmlurl'=>$new_htmlurl));
+						
+						foreach($children as $v){
+							$html = substr($v['htmlurl'],strlen($old_htmlurl));
+							$htmlurl_s = $new_htmlurl.$html;
+							M('classtype')->update(['id'=>$v['id']],['htmlurl'=>$htmlurl_s]);
+							M($v['molds'])->update(['tid'=>$v['id']],['htmlurl'=>$htmlurl_s]);
+						}
+
+					}
+
+
 				}
 				$this->setNav($this->data,$w);
 				setCache('classtypetree',null);
@@ -150,13 +199,10 @@ class ClasstypeNavController extends CommonController
 		//$classtype = M('classtype')->findAll(null,'orders desc');
 		//$classtype = getTree($classtype);
 	
-		$this->classtypes = $this->classtypetree;;
+		$this->classtypes = $this->classtypetree;
 		$this->display('classtype-edit');
-		exit;
 		
 	}
-	
-
 	function deleteclass(){
 		$id = $this->frparam('id');
 		if($id){
@@ -164,6 +210,7 @@ class ClasstypeNavController extends CommonController
 			if(M('classtype')->find(['pid'=>$id])){
 				JsonReturn(array('status'=>0,'info'=>'该栏目有子栏目，请先删除子栏目！'));
 			}
+			
 			$a = M('classtype')->delete(array('id'=>$id));
 			if($a){
 				$classtypetree = classTypeData();
@@ -179,6 +226,7 @@ class ClasstypeNavController extends CommonController
 		}
 		
 	}
+	
 	//删除栏目
 	function delNav($oldclass){
 		$classtypenav = M('ruler')->find(['fc'=>'Classtypenav']);

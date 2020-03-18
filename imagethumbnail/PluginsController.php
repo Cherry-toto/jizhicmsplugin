@@ -69,9 +69,7 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检测是否已安装前台插件
 		$filepath = APP_PATH.'A/plugins/ImageController.php';
-		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'后台A/plugins下面已存在相应的Image控制器！'));
-		}
+	
 		
 		//注册到hook里面
 		$w['module'] = 'A';
@@ -130,9 +128,9 @@ class PluginsController extends Controller {
 		$data['large_value_x'] = format_param($data['large_value_x']);
 		$data['large_value_y'] = format_param($data['large_value_y']);
 		$data['gif_open'] = format_param($data['gif_open']);
-		$data['tids_1'] = (count(format_param($data['tids_1'],2))>0)?','.implode(',',format_param($data['tids_1'],2)).',':'';
-		$data['tids_2'] = (count(format_param($data['tids_2'],2))>0)?','.implode(',',format_param($data['tids_2'],2)).',':'';
-		$data['tids_3'] = (count(format_param($data['tids_3'],2))>0)?','.implode(',',format_param($data['tids_3'],2)).',':'';
+		$data['tids_1'] = (format_param($data['tids_1'],2) && count(format_param($data['tids_1'],2))>0)?','.implode(',',format_param($data['tids_1'],2)).',':'';
+		$data['tids_2'] = (format_param($data['tids_2'],2) && count(format_param($data['tids_2'],2))>0)?','.implode(',',format_param($data['tids_2'],2)).',':'';
+		$data['tids_3'] = (format_param($data['tids_3'],2) && count(format_param($data['tids_3'],2))>0)?','.implode(',',format_param($data['tids_3'],2)).',':'';
 		if($data['default_open']==1){
 			if( ($data['default_rate_x']==0 || $data['default_rate_y']==0) && ($data['default_value_x']==0 || $data['default_value_y']==0)){
 				JsonReturn(['code'=>1,'msg'=>'中等图设置失败！']);

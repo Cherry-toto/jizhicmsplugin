@@ -36,7 +36,7 @@ class GetDataController extends CommonController
 	
 		model: 模块名，必填
 		key:访问秘钥，必填
-		where:查询条件，默认查询该模块所有内容，json格式{'tid':1}，可以不填
+		where:查询条件，默认查询该模块所有内容，根据请求，自动获取
 		orders:查询排序，默认id倒序，字符串格式： 'addtime desc' ，可以不填
 		limit:显示条数，默认查询所有，数字，正整数，可以不填
 		fields:获取字段，默认查询所有，字符串格式： 'id,classname,tid' ，可以不填
@@ -48,17 +48,23 @@ class GetDataController extends CommonController
 		$table = $this->frparam('model',1);
 		if(is_array($tables) && in_array($table,$tables)){
 			$model = $this->frparam('model',1,false);
-			$where = $this->frparam('where',1,null);
+			
 			$orders = $this->frparam('orders',1,' id desc ');
 			$limit = $this->frparam('limit',0,null);
 			$fields = $this->frparam('fields',1,null);
 			if(!$model){
 				JsonReturn(['code'=>1,'msg'=>'model参数错误！']);
 			}
-			if($where!==null){
-				$where = json_decode($where,1);
+			$data = $this->frparam();
+			unset($data['model']);
+			unset($data['orders']);
+			unset($data['limit']);
+			unset($data['fields']);
+			unset($data['key']);
+			$where = null;
+			foreach($data as $k=>$v){
+				$where[$k] = $this->frparam($k,1);
 			}
-		
 			$res = M($model)->findAll($where,$orders,$fields,$limit);
 			JsonReturn(['code'=>0,'data'=>$res]);
 			

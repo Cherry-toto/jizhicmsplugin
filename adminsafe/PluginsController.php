@@ -69,27 +69,27 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检测是否已安装前台插件
 		$filepath = APP_PATH.'Admin/plugins/AdminLoginController.php';
-		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'后台Admin/plugins下面已存在相应的AdminLogin控制器！'));
-		}
+		// if(file_exists($filepath)){
+			// JsonReturn(array('code'=>1,'msg'=>'后台Admin/plugins下面已存在相应的AdminLogin控制器！'));
+		// }
 		//注册到hook里面
 		$w['module'] = 'A';
-		$w['namespace'] = 'A\\\\c';
+		$w['namespace'] = 'A';
 		$w['controller'] = 'Index';
 		$w['action'] = '';
 		$w['all_action'] = 1;
-		$w['hook_namespace'] = '\\\\A\\\\plugins';
+		$w['hook_namespace'] = 'A';
 		$w['hook_controller'] = 'AdminLogin';
 		$w['hook_action'] = 'checklogin';
 		$w['plugins_name'] = 'adminsafe';//插件文件夹
 		$w['addtime'] = time();
 		M('hook')->add($w);
 		$w['module'] = 'A';
-		$w['namespace'] = 'A\\\\c';
+		$w['namespace'] = 'A';
 		$w['controller'] = 'Login';
 		$w['action'] = '';
 		$w['all_action'] = 1;
-		$w['hook_namespace'] = '\\\\A\\\\plugins';
+		$w['hook_namespace'] = 'A';
 		$w['hook_controller'] = 'AdminLogin';
 		$w['hook_action'] = 'checklogin';
 		$w['plugins_name'] = 'adminsafe';//插件文件夹
