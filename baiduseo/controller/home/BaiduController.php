@@ -28,7 +28,15 @@ class BaiduController extends CommonController
 		$plugin = M('plugins')->find(['filepath'=>'baiduseo','isopen'=>1]);
 		if($plugin){
 			$config = json_decode($plugin['config'],true);
-			$config['ids'] = isset($config['ids']) ? $config['ids'] : '';
+			if(!is_array($config['ids'])){
+				$molds = M('molds')->findAll();
+				$ids = [];
+				foreach($molds as $v){
+					$ids[$v['biaoshi']] = 0;
+				}
+				$config['ids'] = $ids;
+			}
+			
 			$config['updatetime'] = isset($config['updatetime']) ? $config['updatetime'] : 0;
 			$puttime = (int)$config['puttime'];//数字
 			$puttype = $config['puttype'];//时 天 月
@@ -58,19 +66,36 @@ class BaiduController extends CommonController
 					break;
 			}
 			$w = $config;
-			if($isgo && ( (isset($config['baiduwebapi']) && $config['baiduwebapi']!='') ||  (isset($config['baiduxzapi']) && $config['baiduxzapi']!=''))){
-				$sql_ids = $config['ids']=='' ? 0 : str_replace('|',',', $config['ids']);//1,2,3,4 
-				$sql = " id not in (".$sql_ids.") and isshow=1 ";
-				$articles = M('article')->findAll($sql);
+			if($config['molds'] && $isgo && ( (isset($config['baiduwebapi']) && $config['baiduwebapi']!='') ||  (isset($config['baiduxzapi']) && $config['baiduxzapi']!=''))){
+				
+				$allow = explode('|',$config['molds']);
 				$urls = [];
-				$ids = $config['ids']=='' ? [] : explode('|', $config['ids']);//1|2|3|4 存储推送过的文章ID
-				//不能直接用$v['url']
-				//loop  就能直接用 $v['url']  列表也可以这样写
-				foreach ($articles as $key => $value) {
-					$urls[]=gourl($value['id'],$value['htmlurl']);
-					$ids[] = $value['id'];
+				foreach($allow as $v){
+					$v = trim($v);
+					$sql = 'id>'.$config['ids'][$v];
+					$articles = M($v)->findAll($sql,'id asc');
+					$id = $config['ids'][$v];
+					if($v=='classtype'){
+						$htmlpath = webConf('pc_html');
+						$htmlpath = ($htmlpath=='' || $htmlpath=='/') ? '' : '/'.$htmlpath; 
+						foreach ($articles as $key => $value) {
+							$urls[] = get_domain().$htmlpath.'/'.$value['htmlurl'].File_TXT;
+							$id = $value['id'];
+						}
+						
+					}else{
+						foreach ($articles as $key => $value) {
+							$urls[]=gourl($value['id'],$value['htmlurl']);
+							$id = $value['id'];
+						}
+						
+					}
+					$config['ids'][$v] = $id;
 					
 				}
+				
+				
+				
               
 				if(count($urls)>0){
 					//百度站长
@@ -87,7 +112,7 @@ class BaiduController extends CommonController
 							curl_setopt_array($ch, $options);
 							$result = curl_exec($ch);
 							curl_close($ch);
-                   	echo $result;
+                   
 					}
                   
 					if(isset($config['baiduxzapi']) && $config['baiduxzapi']!=''){
@@ -105,9 +130,9 @@ class BaiduController extends CommonController
 							curl_close($ch);
 					}
 
-					$ids_x = implode('|',$ids);//把数组用|分隔
+					
 					$w['updatetime'] = time();
-					$w['ids'] = $ids_x;
+					$w['ids'] = $config['ids'];
                     $config = $w;
 				    M('plugins')->update(['id'=>$plugin['id']],['config'=>json_encode($config,JSON_UNESCAPED_UNICODE)]);
 				

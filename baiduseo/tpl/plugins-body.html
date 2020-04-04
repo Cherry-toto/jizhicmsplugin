@@ -10,12 +10,12 @@
 <div class="layui-tab" style="margin:15px;">
   <ul class="layui-tab-title">
     <li class="layui-this">插件设置</li>
-    <li>推送记录</li>
+    
 
   </ul>
   <div class="layui-tab-content">
     <div class="layui-tab-item layui-show">
-  <div class="layui-rows" style="    margin: 10px;">
+  <div class="layui-rows" style="margin: 10px;">
     <form class="layui-form layui-form-pane" action="">
   <!--表单必须要携带ID-->
   <blockquote class="layui-elem-quote">百度站长信息填写</blockquote>
@@ -34,7 +34,15 @@
     </div>
     
     </div>
-
+	
+	<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">需要推送模块 <b>请用|分隔模块标识，如：article|product|classtype</b> </label>
+    <div class="layui-input-block">
+      <input type="text" name="molds" value="{$config['molds']}" placeholder="请用|分隔模块标识"  class="layui-input" />
+    </div>
+    
+    </div>
+	
     <div class="layui-form-item">
     <label class="layui-form-label">更新频率  </label>
     <div class="layui-inline">
@@ -66,34 +74,8 @@
 </div>
     </div>
     <div class="layui-tab-item">
-    <table class="layui-table">
-  <colgroup>
-    <col width="150">
-    <col width="200">
-    <col>
-  </colgroup>
-  <thead>
-    <tr>
-      <th>标题</th>
-      <th>链接</th>
-      
-    </tr> 
-  </thead>
-  <tbody>
-  {if(isset($config['ids']) && $config['ids']!='')}
-  {php $ids = str_replace('|',',',$config['ids']);$lists = M('article')->findAll('id in('.$ids.')',null,'id,htmlurl,title'); /}
-{foreach $lists as $v}
-    <tr>
-      <td>{$v['title']}</td>
-      <td>{fun gourl($v['id'],$v['htmlurl'])}</td>
-    </tr>
-{/foreach}
-  {/if}
-    
-  </tbody>
 
-</table>
-    
+  
 
     </div>
 

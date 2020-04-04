@@ -69,39 +69,40 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检测是否已安装前台插件
 		$filepath = APP_PATH.'Home/plugins/BaiduController.php';
-		if(file_exists($filepath)){
-			JsonReturn(array('code'=>1,'msg'=>'前台Home/plugins下面已存在相应的Baidu控制器！'));
-		}
-
-		//hook进入文件
-		//注册到hook里面
-		//sqlite数据库兼容
-		//
-		if(!defined('DB_TYPE') || DB_TYPE=='mysql'){
-			$w['module'] = 'Home';
-			$w['namespace'] = 'Home\\\\c';
-			$w['controller'] = 'Home';
-			$w['action'] = 'jizhi';//单独方法
-			$w['all_action'] = 0;//全局
-			$w['hook_namespace'] = '\\\\Home\\\\plugins';
-			$w['hook_controller'] = 'Baidu';
-			$w['hook_action'] = 'putweb';
-			$w['plugins_name'] = 'baiduseo';//插件文件夹
-			$w['addtime'] = time();
-			M('hook')->add($w);
-		}else{
-			//sqlite
-			$w['module'] = 'Home';
-			$w['namespace'] = 'Home\\c';
-			$w['controller'] = 'Home';
-			$w['action'] = 'jizhi';//单独方法
-			$w['all_action'] = 0;//全局
-			$w['hook_namespace'] = '\\Home\\plugins';
-			$w['hook_controller'] = 'Baidu';
-			$w['hook_action'] = 'putweb';
-			$w['plugins_name'] = 'baiduseo';//插件文件夹
-			$w['addtime'] = time();
-			M('hook')->add($w);
+		$plugin = M('hook')->find(['plugins_name'=>'baiduseo']);
+		if(!$plugin){
+			
+			//hook进入文件
+			//注册到hook里面
+			//sqlite数据库兼容
+			//
+			if(!defined('DB_TYPE') || DB_TYPE=='mysql'){
+				$w['module'] = 'Home';
+				$w['namespace'] = 'Home';
+				$w['controller'] = 'Home';
+				$w['action'] = 'jizhi';//单独方法
+				$w['all_action'] = 0;//全局
+				$w['hook_namespace'] = 'Home';
+				$w['hook_controller'] = 'Baidu';
+				$w['hook_action'] = 'putweb';
+				$w['plugins_name'] = 'baiduseo';//插件文件夹
+				$w['addtime'] = time();
+				M('hook')->add($w);
+			}else{
+				//sqlite
+				$w['module'] = 'Home';
+				$w['namespace'] = 'Home';
+				$w['controller'] = 'Home';
+				$w['action'] = 'jizhi';//单独方法
+				$w['all_action'] = 0;//全局
+				$w['hook_namespace'] = 'Home';
+				$w['hook_controller'] = 'Baidu';
+				$w['hook_action'] = 'putweb';
+				$w['plugins_name'] = 'baiduseo';//插件文件夹
+				$w['addtime'] = time();
+				M('hook')->add($w);
+			}
+		
 		}
 		
 	
@@ -126,8 +127,14 @@ class PluginsController extends Controller {
 	public  function setconf($plugins){
 		//将插件赋值到模板中
 		$this->plugins = $plugins;
-		$this->config = json_decode($plugins['config'],1);
+		$config = json_decode($plugins['config'],1);
+		//清空旧插件数据
+		if(!is_array($config['ids']) && strpos($config['ids'],'|')!==false){
+			$config['ids'] = '';
+			M('plugins')->update(['id'=>$plugins['id']],['config'=>json_encode($config,JSON_UNESCAPED_UNICODE)]);
+		}
 		
+		$this->config = $config;
 		$this->display($this->tpl.'plugins-body.html');
 	}
 	
@@ -140,10 +147,18 @@ class PluginsController extends Controller {
 		$config['baiduxzapi'] = format_param($data['baiduxzapi'],1);
 		$config['puttime'] = (int)$data['puttime'];
 		$config['puttype'] = format_param($data['puttype'],1);
-		
+		$config['molds'] = format_param($data['molds'],1);
+		if(!$config['molds']){
+			JsonReturn(['code'=>1,'msg'=>'模块标识必须设置才能使用！']);
+		}
 		if(!isset($config['updatetime'])){
 			$config['updatetime'] = 0;
-			$config['ids'] = '';
+			$molds = M('molds')->findAll();
+			$ids = [];
+			foreach($molds as $v){
+				$ids[$v['biaoshi']] = 0;
+			}
+			$config['ids'] = $ids;
 		}
 		
 

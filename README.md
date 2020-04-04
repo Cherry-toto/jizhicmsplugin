@@ -1,5 +1,7 @@
 # jizhicmsplugin
 极致CMS的插件库，存放极致CMS各种插件
+## jzexcel  
+实现excel导入导出功能    
 ## qqlogin 
 网站实现QQ一键登录插件  
 ## baiduseo 

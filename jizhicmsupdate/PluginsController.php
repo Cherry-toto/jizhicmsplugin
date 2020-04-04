@@ -69,70 +69,133 @@ class PluginsController extends Controller {
 		//下面是新增test表的SQL操作
 		//检测版本号
 		if(!version_compare($this->webconf['web_version'],'1.6.6','==')){
-			JsonReturn(['code'=>1,'msg'=>'您的软件系统版本为'.$this->webconf['web_version'].'，该插件仅支持1.6.6版本修复！']);
+			JsonReturn(['code'=>1,'msg'=>'您的软件系统版本为'.$this->webconf['web_version'].'，该插件仅支持1.6.6版本升级！']);
 		}
-
-		
 		//公共文件安装
 		$dir = APP_PATH.'A/exts/jizhicmsupdate/file';
-
-		copy($dir."/PluginsController.php",APP_PATH.'A/c/PluginsController.php');
-
 		//检查文件名是否存在
 		if(file_exists(APP_PATH.'install')){
-			copy($dir."/db.php",APP_PATH.'install/db.php');
-			copy($dir."/test.php",APP_PATH.'install/test.php');
+			copy($dir."/install/db.php",APP_PATH.'install/db.php');
+			copy($dir."/install/test.php",APP_PATH.'install/test.php');
 		}
+		
+		copy($dir."/tpl/comment-details.html",APP_PATH.'A/t/tpl/comment-details.html');
+		copy($dir."/tpl/membergroup-add.html",APP_PATH.'A/t/tpl/membergroup-add.html');
+		copy($dir."/tpl/plugins-list.html",APP_PATH.'A/t/tpl/plugins-list.html');
+		copy($dir."/tpl/sys.html",APP_PATH.'A/t/tpl/sys.html');
+		copy($dir."/tpl/classtype-edit.html",APP_PATH.'A/t/tpl/classtype-edit.html');
+		copy($dir."/tpl/classtype-add.html",APP_PATH.'A/t/tpl/classtype-add.html');
+		
+		
+		copy($dir."/PluginsController.php",APP_PATH.'A/c/PluginsController.php');
+		copy($dir."/ClasstypeController.php",APP_PATH.'A/c/ClasstypeController.php');
+		copy($dir."/ArrayPage.php",APP_PATH.'FrPHP/Extend/ArrayPage.php');
+		copy($dir."/Page.php",APP_PATH.'FrPHP/Extend/Page.php');
+		
+		
 		if(defined('DB_TYPE') && DB_TYPE=='sqlite'){
+			//sqlite
 			if(file_exists(APP_PATH.'install')){
-				copy($dir."/db.db",APP_PATH.'install/db.db');
-				copy($dir."/test.db",APP_PATH.'install/test.db');
+				copy($dir."/install/db.db",APP_PATH.'install/db.db');
+				copy($dir."/install/test.db",APP_PATH.'install/test.db');
 			}
-			//新增字段
-			$sqlx = "pragma table_info(".DB_PREFIX."buylog)";
-			$list = M()->findSql($sqlx);
-			$isgo = true;
-			foreach($list as $v){
-				if($v['name']=='aid'){
-					$isgo = false;
-					
-				}
-			}
-			$sql = '';
-			if($isgo){
-				//新增字段
-				$sql = "ALTER TABLE ".DB_PREFIX."buylog ADD aid INT(11)  DEFAULT '0' ;";
-				M()->runSql($sql);
-			}
+			copy($dir."/sqlite/admin/CommonController.php",APP_PATH.'A/c/CommonController.php');
+			copy($dir."/sqlite/admin/IndexController.php",APP_PATH.'A/c/IndexController.php');
+			copy($dir."/sqlite/admin/PluginsController.php",APP_PATH.'A/c/PluginsController.php');
+			copy($dir."/sqlite/admin/SysController.php",APP_PATH.'A/c/SysController.php');
+			copy($dir."/sqlite/admin/FieldsController.php",APP_PATH.'A/c/FieldsController.php');
 			
+			copy($dir."/sqlite/home/CommonController.php",APP_PATH.'Home/c/CommonController.php');
+			copy($dir."/sqlite/home/ErrorController.php",APP_PATH.'Home/c/ErrorController.php');
+			copy($dir."/sqlite/home/HomeController.php",APP_PATH.'Home/c/HomeController.php');
+			copy($dir."/sqlite/home/LoginController.php",APP_PATH.'Home/c/LoginController.php');
+			copy($dir."/sqlite/home/UserController.php",APP_PATH.'Home/c/UserController.php');
+			
+			copy($dir."/sqlite/Fr.php",APP_PATH.'FrPHP/Fr.php');
 			
 			
 		}else{
+			//mysql
+			copy($dir."/admin/CommonController.php",APP_PATH.'A/c/CommonController.php');
+			copy($dir."/admin/IndexController.php",APP_PATH.'A/c/IndexController.php');
+			copy($dir."/admin/PluginsController.php",APP_PATH.'A/c/PluginsController.php');
+			copy($dir."/admin/SysController.php",APP_PATH.'A/c/SysController.php');
 			
-			$sql = 'SHOW COLUMNS FROM '.DB_PREFIX.'buylog ';
-			$list = M()->findSql($sql);
-			$isgo = true;
-		
-			foreach($list as $v){
-				if($v['Field']=='aid'){
-					$isgo = false;
+			
+			copy($dir."/home/CommonController.php",APP_PATH.'Home/c/CommonController.php');
+			copy($dir."/home/ErrorController.php",APP_PATH.'Home/c/ErrorController.php');
+			copy($dir."/home/HomeController.php",APP_PATH.'Home/c/HomeController.php');
+			copy($dir."/home/LoginController.php",APP_PATH.'Home/c/LoginController.php');
+			copy($dir."/home/UserController.php",APP_PATH.'Home/c/UserController.php');
+			
+			copy($dir."/mysql/Fr.php",APP_PATH.'FrPHP/Fr.php');
+			
+			
+			
+		}
+
+		$handle = opendir(APP_PATH);
+		$admin_url = '';
+		while ( false !== ($file = readdir ( $handle )) ) {
+			//去掉"“.”、“..”以及带“.xxx”后缀的文件
+			if ($file != "." && $file != ".."&&strpos($file,".")) {
+				
+				if(strpos($file,'.php')!==false && $file!='index.php'){
+					$data = file_get_contents(APP_PATH.$file);
+					if(strpos($data,"define('APP_HOME','A')")!==false){
+						$admin_url = $file;
+						break;
+					}
 					
 				}
 				
 			}
-			if($isgo){
-				$sql = "ALTER TABLE ".DB_PREFIX."buylog ADD aid INT(11)  DEFAULT '0' ";
-				M()->runSql($sql);
-			}
+		}
+		//关闭句柄
+		closedir ( $handle );
+		if($admin_url!=''){
+			$data = file_get_contents(APP_PATH.$admin_url);
+			$datas = preg_replace("/define\('ROOT',(.*?)\);/","",$data);
+			$datas = str_replace("define('Tpl_style',ROOT.'A/t/tpl');","define('Tpl_style','/A/t/tpl');",$datas);
+			file_put_contents(APP_PATH.$admin_url,$datas);
+			
 			
 		}
 		
-	
-		$plugin = M('plugins')->find(['filepath'=>'jizhicmsupdate']);
-		if($plugin){
-			M('plugins')->update(['id'=>$plugin['id']],['version'=>'2.3','addtime'=>strtotime('2020-03-12')]);
+		//获取前台template
+		$indexdata = file_get_contents(APP_PATH.'index.php');
+		$r = preg_match("/define\('HOME_VIEW','([^']+)'\)/",$indexdata,$matches);
+		if($r){
+			$template = $matches[1];
+			$tp = $this->webconf['pc_template'];
+			if(file_exists(APP_PATH.'Home/'.$template.'/'.$tp.'/user/style.html')){
+				copy($dir."/style.html",APP_PATH.'Home/'.$template.'/'.$tp.'/user/style.html');
+				copy($dir."/notify.html",APP_PATH.'Home/'.$template.'/'.$tp.'/user/notify.html');
+				copy($dir."/people.html",APP_PATH.'Home/'.$template.'/'.$tp.'/user/people.html');
+			}
+			
+		}
+		//检查权限是否添加
+		if(!M('ruler')->find(['fc'=>'Classtype/get_html','pid'=>41])){
+			M('ruler')->add(['fc'=>'Classtype/get_html','pid'=>41,'name'=>'获取栏目模板','isdesktop'=>0,'sys'=>1]);
 		}
 		
+
+		//新增配置参数
+		if(!M('sysconfig')->find(['field'=>'web_logo'])){
+			M('sysconfig')->add(['field'=>'web_logo','title'=>'网站LOGO','type'=>0,'data'=>'/static/default/assets/img/logo.png']);
+		}
+
+		$plugin = M('plugins')->find(['filepath'=>'jizhicmsupdate']);
+		if($plugin){
+			M('plugins')->update(['id'=>$plugin['id']],['version'=>'2.4','addtime'=>strtotime('2020-03-26')]);
+		}
+		
+		M('sysconfig')->update(['field'=>'web_version'],['data'=>'1.6.7']);
+		
+		//更新配置
+		setCache('webconfig',null);
+		setCache('customconfig',null);
 
 	
 		return true;

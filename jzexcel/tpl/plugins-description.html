@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	{include="style"}
+
+</head>
+<body >
+  <div class="layui-rows" style="margin-top: 10px;">
+    <h1 style="text-align:center">Excel导入导出</h1>
+    <h3 style="text-align:center">by 如沐春(留恋风)</h1>
+	<div style="margin:15px;">
+		<table class="layui-table">
+			  <colgroup>
+				<col width="50">
+				<col >
+				<col width="300">
+			  </colgroup>
+			  <thead>
+				<tr>
+				  <th>操作步骤</th>
+				  <th>说明</th>
+				  <th>注意事项</th>
+				</tr> 
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td>1</td>
+				  <td>选择对应的操作</td>
+				  <td>导入/导出</td>
+				</tr>
+				<tr>
+				  <td>2.1</td>
+				  <td>导入，请选择对应的表格格式，选择表格样式</td>
+				  <td>注意表格样式：一种是带字段，一种不带字段，默认带字段的格式</td>
+				</tr>
+				<tr>
+				  <td>2.2</td>
+				  <td>导入，选择导入模块时，如果选择【创建新模块】则需要你填写【新模块名】及【模块标识】</td>
+				  <td>注意：新模块一定是自定义模块，导入后需要【桌面设置】调出左侧栏看</td>
+				</tr>
+				<tr>
+				  <td>2.3</td>
+				  <td>导入，导入已有模块，字段选择，匹配准确对应表字段！如果是【新增模块】，则需要注意内置字段，不要重复了！</td>
+				  <td>注意：内置字段不要重复，字段都要是唯一的！</td>
+				</tr>
+				<tr>
+				  <td>2.4</td>
+				  <td>导入，提交后，则提示导入成功！如果是新增模，此时需要到【系统设置】【桌面设置】继续配置左侧导航，把新增模块调出来。</td>
+				  <td>注意：每一步都需要认真看说明</td>
+				</tr>
+				<tr>
+				  <td>3.1</td>
+				  <td>导出，选择导出模块，然后删掉不导出的字段，还可以拖拉排序，进行导出后的字段顺序输出</td>
+				  <td>注意：只能全部一次导出，不能筛选，筛选请到对应的模块列表筛选导出！</td>
+				</tr>
+			  </tbody>
+			</table>
+	</div>
+  </div>
+
+  
+    <script>
+	layui.use('code', function(){ //加载code模块
+		  layui.code(); //引用code方法
+		});
+    </script>
+ 
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+   {include="style"}
+   
+  </head>
+  
+  <body>
+	<div class="x-nav">
+		<span class="layui-breadcrumb">
+		  <a><cite>首页</cite></a>
+		  <a><cite>Excel导入导出</cite></a>
+		  <a><cite>设置导入信息</cite></a>
+		</span>
+		<a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="iconfont" style="line-height:30px">&#xe6aa;</i></a>
+	</div>
+    <div class="x-body">
+      <form class="layui-form layui-form-pane" id="myform" action="{fun U('excel/importover')}">
+	  <input type="hidden" name="molds" value="{$molds}" />
+		{if($molds=='newmolds')}
+		 <input type="hidden" name="excel_molds_biaoshi" value="{$excel_molds_biaoshi}" />
+		<blockquote class="layui-elem-quote">新增模块已创建成功！系统内置几个字段（{fun implode(',',$field_exits)}），如果写了重复的字段，则类型以系统内置为准！</blockquote>
+		<blockquote class="layui-elem-quote">特别提醒：ID为内置主键，如果要把你的id录入进去，请更改别的字段！</blockquote>
+            <table class="layui-table">
+			  <colgroup>
+				<col >
+				<col width="200">
+				<col width="200">
+			  </colgroup>
+			  <thead>
+				<tr>
+				  <th>字段名</th>
+				  <th>字段标识</th>
+				  <th>导入类型</th>
+				</tr> 
+			  </thead>
+			  <tbody id="getRows" class="sortable">
+			  {foreach $table as $k=>$v}
+				<tr>
+				  <td><input type="text" name="title[]" required  lay-verify="required" placeholder="请输入字段名" value="{$v}" autocomplete="off" class="layui-input"></td>
+				  <td><input type="text" name="fields[]" required  lay-verify="required" placeholder="请输入字段标识(不能写中文)" value="{if(isset($fields[$k]))}{$fields[$k]}{/if}" autocomplete="off" class="layui-input"></td>
+				  <td><select name="fieldstype[]" lay-verify="required">
+						<option value="1">单行文本</option>
+						<option value="2">多行文本</option>
+						<option value="3">编辑器</option>
+						<option value="4">数字</option>
+						<option value="5">图片</option>
+						<option value="6">时间(年/月/日)</option>
+						<option value="7">时间戳(一串数字)</option>
+						<option value="8">附件</option>
+						
+						
+						
+					  </select></td>
+				</tr>
+			  {/foreach}
+				
+			  </tbody>
+			</table>
+		  {else}
+		   <table class="layui-table">
+			  <colgroup>
+				<col width="200">
+				<col width="150">
+				<col>
+			  </colgroup>
+			  <thead>
+				<tr>
+				  <th>字段名</th>
+				  <th>字段标识</th>
+				  <th>字段类型</th>
+				</tr> 
+			  </thead>
+			  <tbody id="getRows" class="sortable">
+			  {foreach $table as $k=>$v}
+				<tr>
+				  <td><input type="text" name="title[]" required  lay-verify="required" placeholder="请输入字段名" value="{$v}" autocomplete="off" class="layui-input"></td>
+				  <td>
+				  <select name="fields[]" lay-verify="required">
+					
+					{foreach $allowfields as $vv}
+					<option value="{$vv}" {if($fields[$k]==$vv)} selected {/if}>{$vv}</option>
+					{/foreach}
+					
+				  </select>
+				  
+				  </td>
+				  <td><select name="fieldstype[]" lay-verify="required">
+						<option value="1">文本</option>
+						<option value="2">图片</option>
+						<option value="3">时间(年/月/日)</option>
+						<option value="4">时间戳(一串数字)</option>
+						
+					  </select></td>
+				</tr>
+			  {/foreach}
+				
+			  </tbody>
+			</table>
+		  {/if}
+          <div class="layui-form-item" style="text-align:center;">
+              
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  确定
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+	{include="fields"}
+	$(document).ready(function(){
+	
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+        
+         
+
+          //监听提交
+          form.on('submit(add)', function(data){
+		  
+			$("#myform").submit();
+         
+            return false;
+          });
+          
+		   get_fields(0);
+          
+        });
+    </script>
+   
+  </body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+   {include="style"}
+    <link rel="stylesheet" href="{__Tpl_style__}/style/jqui/jquery-ui.min.css" />
+	<script src="{__Tpl_style__}/style/jqui/jquery-ui.min.js"></script>
+  </head>
+  
+  <body>
+	<div class="x-nav">
+		<span class="layui-breadcrumb">
+		  <a><cite>首页</cite></a>
+		  <a><cite>Excel导入导出</cite></a>
+		  <a><cite>设置导出信息</cite></a>
+		</span>
+		<a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="iconfont" style="line-height:30px">&#xe6aa;</i></a>
+	</div>
+    <div class="x-body">
+      <form class="layui-form layui-form-pane" id="myform" action="{fun U('excel/outputover')}">
+	  <input type="hidden" name="molds" value="{$output_molds}" />
+	  <blockquote class="layui-elem-quote">温馨提示：多图图集无法导出！导出只能呈现链接形式。【按住空格区域，可以进行拖动排序】</blockquote>
+		
+		   <table class="layui-table" >
+			  <colgroup>
+				<col width="200">
+				<col width="150">
+				<col>
+			  </colgroup>
+			  <thead>
+				<tr>
+				  <th>导出名</th>
+				  <th>字段标识</th>
+				  <th>字段类型</th>
+				  <th>操作</th>
+				</tr> 
+			  </thead>
+			  <tbody id="getRows" class="sortable">
+			  {foreach $allowfields as $k=>$v}
+				<tr draggable="true">
+				  <td><input type="text" name="title[]" required  lay-verify="required" placeholder="请输入导出名" value="" autocomplete="off" class="layui-input"></td>
+				  <td>
+				  <input type="text" name="fields[]" required  lay-verify="required" placeholder="请输入字段标识" value="{$v}" autocomplete="off" class="layui-input">
+				  
+				  </td>
+				  <td><select name="fieldstype[]" lay-verify="required">
+						<option value="1">文本</option>
+						<option value="2">图片</option>
+						<option value="15">图片链接</option>
+						<option value="3">图集</option>
+						<option value="13">栏目tid</option>
+						<option value="4">时间(年/月/日)</option>
+						<option value="14">时间(年/月/日 时:分:秒)</option>
+						<option value="5">时间戳(一串数字)</option>
+						<option value="6">附件</option>
+						<option value="7">单选（自定义字段）</option>
+						<option value="8">多选（自定义字段）</option>
+						<option value="9">1是0否</option>
+						<option value="10">0是1否</option>
+						<option value="11">1是2否</option>
+						<option value="12">1否2是</option>
+						
+					  </select></td>
+				  <td><a onclick="del(this)"><button type="button" class="layui-btn layui-btn-danger layui-btn-xs">删除</button></a></td>
+				</tr>
+			  {/foreach}
+				
+			  </tbody>
+			</table>
+		
+          <div class="layui-form-item" style="text-align:center;">
+              
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  确定
+              </button>
+          </div>
+      </form>
+    </div>
+    <script>
+	{include="fields"}
+	function del(a){
+		$(a).parent().parent().remove();
+		
+	}
+	$(document).ready(function(){
+	//tr上下拖动
+	$(".sortable").sortable({  
+	        cursor: "move",  
+	        items: "tr",                       //只是tr可以拖动  
+	        opacity: 1.0,                      //拖动时，透明度为0.6  
+	        revert: false,                      //释放时，增加动画  
+	        update: function(event, ui) {      //更新排序之后  
+	            var categoryids = $(this).sortable("toArray");  
+	            var $this = $(this);  
+	        }  
+	    });  
+	    $(".sortable").disableSelection(); 
+
+	});
+
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          var form = layui.form
+          ,layer = layui.layer;
+        
+         
+
+          //监听提交
+          form.on('submit(add)', function(data){
+		  
+			$("#myform").submit();
+         
+            return false;
+          });
+          
+		   get_fields(0);
+          
+        });
+    </script>
+   
+  </body>
+
+</html>
